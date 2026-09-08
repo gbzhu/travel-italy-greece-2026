@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#f3ead6" />
+<title>意大利 · 希腊 14 天旅行手册</title>
+<style>
+  /* ============ 主题变量：白天 / 黑夜 ============ */
+  :root {
+    --bg: #f3ead6;            /* 羊皮纸底 */
+    --bg2: #efe3c8;
+    --card: #fffdf5;
+    --ink: #2e2a22;
+    --ink-soft: #6b6350;
+    --line: #d9cba7;
+    --accent: #b4472e;        /* 印章红 */
+    --accent2: #1f6f6b;       /* 墨绿 */
+    --gold: #b8860b;
+    --shadow: 0 6px 22px rgba(90,70,30,.14);
+    --tape: rgba(180,140,60,.22);
+    --radius: 16px;
+  }
+  html[data-theme="dark"] {
+    --bg: #14161b;
+    --bg2: #1b1e26;
+    --card: #1e222b;
+    --ink: #e9e4d6;
+    --ink-soft: #9a927e;
+    --line: #363b47;
+    --accent: #e08165;
+    --accent2: #5fbdb5;
+    --gold: #d9b25a;
+    --shadow: 0 6px 24px rgba(0,0,0,.45);
+    --tape: rgba(210,180,110,.14);
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background:
+      radial-gradient(circle at 15% 0%, var(--bg2), transparent 40%),
+      var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color .5s ease, color .5s ease;
+    padding: 0 0 60px;
+    overflow-x: hidden;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 16px; }
+  a { color: inherit; }
+
+  /* ============ 顶栏 ============ */
+  header.top {
+    position: sticky; top: 0; z-index: 30;
+    backdrop-filter: blur(10px);
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    border-bottom: 1px solid var(--line);
+  }
+  .top-inner { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 16px; max-width: 760px; margin: 0 auto; }
+  .brand { font-weight: 800; letter-spacing: .5px; font-size: 15px; }
+  .brand small { display:block; font-weight: 500; color: var(--ink-soft); font-size: 11px; letter-spacing: 2px; }
+  .theme-btn {
+    border: 1px solid var(--line); background: var(--card); color: var(--ink);
+    border-radius: 999px; padding: 6px 12px; font-size: 12px; cursor: pointer; white-space: nowrap;
+  }
+
+  /* ============ 通用卡片 ============ */
+  section { margin: 26px 0; }
+  .sec-title { display: flex; align-items: baseline; gap: 8px; margin: 0 0 12px; }
+  .sec-title h2 { font-size: 19px; margin: 0; letter-spacing: .5px; }
+  .sec-title .idx {
+    font-family: Georgia, serif; font-style: italic; color: var(--accent);
+    border: 1.5px solid var(--accent); border-radius: 50%; width: 26px; height: 26px;
+    display: grid; place-items: center; font-size: 13px; flex: none;
+  }
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+    box-shadow: var(--shadow); padding: 16px;
+  }
+
+  /* ============ 此刻关注 / 倒计时 ============ */
+  .focus {
+    position: relative;
+    background: linear-gradient(160deg, var(--card), color-mix(in srgb, var(--card) 80%, var(--accent2) 8%));
+    border: 1.5px solid var(--line); border-radius: 20px; box-shadow: var(--shadow);
+    padding: 20px 18px 18px; margin-top: 18px; overflow: hidden;
+  }
+  .focus::before { /* 手撕胶带 */
+    content: ""; position: absolute; top: -10px; left: 50%; transform: translateX(-50%) rotate(-2deg);
+    width: 120px; height: 24px; background: var(--tape); border-radius: 3px;
+  }
+  .focus .eyebrow { font-size: 12px; letter-spacing: 3px; color: var(--accent); font-weight: 700; }
+  .focus .ev-title { font-size: 22px; font-weight: 800; margin: 4px 0 2px; line-height: 1.25; }
+  .focus .ev-meta { font-size: 13px; color: var(--ink-soft); }
+  .focus .ev-meta b { color: var(--ink); font-weight: 600; }
+  .countdown { display: flex; gap: 8px; margin-top: 14px; }
+  .cd-cell { flex: 1; text-align: center; background: color-mix(in srgb, var(--bg) 60%, var(--card)); border: 1px solid var(--line); border-radius: 12px; padding: 10px 4px; }
+  .cd-num { font-size: clamp(24px, 8vw, 40px); font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1; letter-spacing: -1px; }
+  .cd-lab { font-size: 11px; color: var(--ink-soft); margin-top: 4px; letter-spacing: 1px; }
+  .focus .tz-note { margin-top: 12px; font-size: 11.5px; color: var(--ink-soft); display: flex; align-items: center; gap: 6px; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent2); display: inline-block; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+  /* ============ 手绘地图 ============ */
+  .map-card { padding: 8px; }
+  svg.handmap { width: 100%; height: auto; display: block; border-radius: 12px; }
+  .map-legend { display: flex; flex-wrap: wrap; gap: 8px 14px; padding: 10px 8px 4px; font-size: 12px; color: var(--ink-soft); }
+  .map-legend span { display: inline-flex; align-items: center; gap: 5px; }
+  .lg-line { width: 20px; height: 0; border-top: 3px dashed; border-radius: 2px; }
+
+  /* ============ 预订信息 ============ */
+  .booking { margin-bottom: 12px; }
+  .booking:last-child { margin-bottom: 0; }
+  .b-head { display: flex; align-items: center; gap: 8px; font-weight: 700; margin-bottom: 8px; }
+  .b-head .ico { font-size: 18px; }
+  .flight-leg { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 6px; padding: 10px 0; border-top: 1px dashed var(--line); }
+  .flight-leg:first-of-type { border-top: 0; }
+  .fl-city { font-weight: 700; font-size: 15px; }
+  .fl-time { font-size: 12px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+  .fl-mid { text-align: center; color: var(--accent2); font-size: 11px; }
+  .fl-mid .plane { font-size: 15px; }
+  .fl-no { font-size: 11px; color: var(--ink-soft); letter-spacing: .5px; }
+  .pending {
+    border: 1.5px dashed var(--line); border-radius: 12px; padding: 12px; text-align: center;
+    color: var(--ink-soft); font-size: 13px; background: repeating-linear-gradient(45deg, transparent, transparent 8px, color-mix(in srgb,var(--line) 30%, transparent) 8px, color-mix(in srgb,var(--line) 30%, transparent) 9px);
+  }
+  .pending b { color: var(--accent); }
+
+  /* ============ 逐日行程 ============ */
+  .day { border: 1px solid var(--line); border-radius: 14px; margin-bottom: 12px; background: var(--card); box-shadow: var(--shadow); overflow: hidden; }
+  .day-head { display: flex; align-items: center; gap: 10px; padding: 13px 14px; cursor: pointer; user-select: none; }
+  .day-badge { flex: none; width: 46px; text-align: center; }
+  .day-badge .d { font-size: 10px; letter-spacing: 1px; color: #fff; background: var(--daycol,#888); border-radius: 6px 6px 0 0; padding: 1px 0; font-weight: 700; }
+  .day-badge .date { font-size: 12px; font-weight: 700; border: 1px solid var(--line); border-top: 0; border-radius: 0 0 6px 6px; padding: 2px 0; }
+  .day-title { flex: 1; min-width: 0; }
+  .day-title .rt { font-weight: 700; font-size: 15px; }
+  .day-title .sleep { font-size: 12px; color: var(--ink-soft); }
+  .day-title .sleep .bed { color: var(--accent2); }
+  .chev { transition: transform .3s; color: var(--ink-soft); flex: none; }
+  .day.open .chev { transform: rotate(180deg); }
+  .day-body { display: none; padding: 0 14px 14px; }
+  .day.open .day-body { display: block; animation: fade .3s; }
+  @keyframes fade { from{opacity:0; transform: translateY(-4px)} to{opacity:1} }
+
+  .day-actions { display: flex; gap: 8px; flex-wrap: wrap; margin: 6px 0 14px; }
+  .btn {
+    border: 1px solid var(--line); background: color-mix(in srgb, var(--bg) 50%, var(--card));
+    color: var(--ink); border-radius: 10px; padding: 8px 12px; font-size: 12.5px; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 6px; text-decoration: none;
+  }
+  .btn.primary { background: var(--accent2); color: #fff; border-color: var(--accent2); }
+  .btn:active { transform: scale(.97); }
+
+  .timeline { position: relative; margin-left: 4px; }
+  .tl-item { display: grid; grid-template-columns: 58px 1fr; gap: 10px; padding: 8px 0; border-top: 1px dashed var(--line); }
+  .tl-item:first-child { border-top: 0; }
+  .tl-time { font-size: 12px; color: var(--accent2); font-weight: 700; padding-top: 2px; font-variant-numeric: tabular-nums; }
+  .tl-body .name { font-weight: 600; }
+  .tl-body .loc-link { color: var(--accent2); text-decoration: none; border-bottom: 1px dotted var(--accent2); }
+  .tl-body .desc { font-size: 13px; color: var(--ink-soft); }
+  .tag { display: inline-block; font-size: 10.5px; padding: 1px 7px; border-radius: 999px; margin-left: 6px; vertical-align: middle; font-weight: 700; }
+  .tag.book { background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--accent); border: 1px solid color-mix(in srgb,var(--accent) 40%, transparent); }
+  .tag.warn { background: color-mix(in srgb, var(--gold) 18%, transparent); color: var(--gold); border: 1px solid color-mix(in srgb,var(--gold) 45%, transparent); }
+
+  .mini-map-box { display: none; margin: 4px 0 12px; border: 1px dashed var(--line); border-radius: 12px; overflow: hidden; }
+  .mini-map-box.show { display: block; }
+
+  /* ============ 待办 ============ */
+  .todo-group { margin-bottom: 14px; }
+  .todo-group h3 { font-size: 14px; margin: 0 0 6px; color: var(--accent2); }
+  .todo-list { list-style: none; margin: 0; padding: 0; }
+  .todo-list li { padding: 7px 0 7px 26px; position: relative; border-top: 1px dashed var(--line); font-size: 14px; }
+  .todo-list li:first-child { border-top: 0; }
+  .todo-list li::before { content: "□"; position: absolute; left: 4px; top: 6px; color: var(--ink-soft); font-size: 15px; }
+  .todo-list li.done { color: var(--ink-soft); text-decoration: line-through; }
+  .todo-list li.done::before { content: "☑"; color: var(--accent2); }
+
+  /* ============ 贴士 ============ */
+  .tips-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+  .tip { border: 1px solid var(--line); border-radius: 12px; padding: 12px; background: var(--card); }
+  .tip .t { font-weight: 700; margin-bottom: 3px; display: flex; align-items: center; gap: 7px; }
+  .tip .c { font-size: 13.5px; color: var(--ink-soft); }
+  @media (min-width: 560px) { .tips-grid { grid-template-columns: 1fr 1fr; } }
+
+  footer { text-align: center; color: var(--ink-soft); font-size: 12px; margin-top: 40px; }
+  .stamp { display:inline-block; border: 2px solid var(--accent); color: var(--accent); border-radius: 8px; padding: 4px 10px; transform: rotate(-4deg); font-weight: 800; letter-spacing: 2px; opacity: .8; }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <div class="brand">意大利 · 希腊 <small>ITALY · GREECE 2026</small></div>
+    <button class="theme-btn" id="themeBtn">◐ 自动</button>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- 1. 此刻关注 -->
+  <div class="focus" id="focus">
+    <div class="eyebrow">此刻关注 · NEXT UP</div>
+    <div class="ev-title" id="evTitle">加载中…</div>
+    <div class="ev-meta" id="evMeta"></div>
+    <div class="countdown" id="countdown">
+      <div class="cd-cell"><div class="cd-num" id="cdD">–</div><div class="cd-lab">天 DAYS</div></div>
+      <div class="cd-cell"><div class="cd-num" id="cdH">–</div><div class="cd-lab">时 HRS</div></div>
+      <div class="cd-cell"><div class="cd-num" id="cdM">–</div><div class="cd-lab">分 MIN</div></div>
+      <div class="cd-cell"><div class="cd-num" id="cdS">–</div><div class="cd-lab">秒 SEC</div></div>
+    </div>
+    <div class="tz-note"><span class="dot"></span><span id="tzNote"></span></div>
+  </div>
+
+  <!-- 2. 行程总览地图 -->
+  <section>
+    <div class="sec-title"><span class="idx">II</span><h2>行程总览地图</h2></div>
+    <div class="card map-card" id="overviewMapCard"></div>
+  </section>
+
+  <!-- 3. 已确认预订 -->
+  <section>
+    <div class="sec-title"><span class="idx">III</span><h2>已确认 · 机票 / 酒店 / 门票</h2></div>
+    <div class="card" id="bookings"></div>
+  </section>
+
+  <!-- 4. 逐日行程 -->
+  <section>
+    <div class="sec-title"><span class="idx">IV</span><h2>逐日行程</h2></div>
+    <div id="days"></div>
+  </section>
+
+  <!-- 5. 待办清单 -->
+  <section>
+    <div class="sec-title"><span class="idx">V</span><h2>待办清单</h2></div>
+    <div class="card" id="todos"></div>
+  </section>
+
+  <!-- 6. 实用贴士 -->
+  <section>
+    <div class="sec-title"><span class="idx">VI</span><h2>实用贴士</h2></div>
+    <div class="tips-grid" id="tips"></div>
+  </section>
+
+  <footer>
+    <div class="stamp">BUON VIAGGIO · ΚΑΛΟ ΤΑΞΙΔΙ</div>
+    <p>4 人同行 · 2026/09/27 – 10/11</p>
+  </footer>
+</div>
+
+<script>
+/* =====================================================================
+   数据区：所有时间以「绝对时刻（带 UTC 偏移）」存储，倒计时用绝对时刻计算，
+   因此无论在哪个时区打开都不会算错。显示时明确标注当地时区。
+   意大利 = UTC+2（欧洲中部夏令时，10/25 前不变）
+   希腊   = UTC+3（东欧夏令时，10/25 前不变）
+   中国   = UTC+8
+   ===================================================================== */
+
+// 城市地图查询串（用于唤起 Google 地图）
+const Q = (s) => encodeURIComponent(s);
+
+// —— 关注事件（按时间排序，倒计时自动指向下一个未发生的事件）——
+const EVENTS = [
+  { iso:"2026-09-27T08:55:00+08:00", title:"出发 · 虹桥 → 北京", meta:"虹桥组 08:55 起飞（浦东组 09:20 / CA8332）", tz:"上海时间 UTC+8" },
+  { iso:"2026-09-27T13:10:00+08:00", title:"北京 → 罗马 · CA939", meta:"13:10 北京起飞，18:30 罗马落地", tz:"北京时间 UTC+8" },
+  { iso:"2026-09-28T09:00:00+02:00", title:"DAY2 · 罗马斗兽场", meta:"斗兽场 + 古罗马广场联票（限时入场）", tz:"罗马时间 UTC+2" },
+  { iso:"2026-09-29T08:30:00+02:00", title:"DAY3 · 梵蒂冈博物馆", meta:"上午梵蒂冈博物馆 + 圣彼得大教堂", tz:"罗马时间 UTC+2" },
+  { iso:"2026-09-30T09:00:00+02:00", title:"DAY4 · 波尔盖塞美术馆", meta:"特雷维喷泉 · 波尔盖塞（必须预约）+ 划船", tz:"罗马时间 UTC+2" },
+  { iso:"2026-10-01T07:30:00+02:00", title:"DAY5 · 高铁去佛罗伦萨", meta:"一早高铁 → 乌菲兹美术馆", tz:"罗马时间 UTC+2" },
+  { iso:"2026-10-02T09:00:00+02:00", title:"DAY6 · 佛罗伦萨", meta:"圣母百花 · 米开朗基罗广场看日落", tz:"佛罗伦萨时间 UTC+2" },
+  { iso:"2026-10-03T07:30:00+02:00", title:"DAY7 · 高铁去那不勒斯", meta:"考古博物馆 · 圣埃莫堡 16:00", tz:"佛罗伦萨时间 UTC+2" },
+  { iso:"2026-10-04T08:30:00+02:00", title:"DAY8 · 卡布里岛", meta:"坐船往返 · 蓝洞看天气", tz:"那不勒斯时间 UTC+2" },
+  { iso:"2026-10-05T09:00:00+02:00", title:"DAY9 · 那不勒斯上午", meta:"百年咖啡 + 逛街，15:50 前到机场", tz:"那不勒斯时间 UTC+2" },
+  { iso:"2026-10-05T17:50:00+02:00", title:"那不勒斯 → 雅典 · U24175", meta:"17:50 起飞，20:35 雅典落地", tz:"那不勒斯时间 UTC+2" },
+  { iso:"2026-10-06T09:00:00+03:00", title:"DAY10 · 雅典卫城", meta:"卫城 · 卫城博物馆 · 宪法广场换兵", tz:"雅典时间 UTC+3" },
+  { iso:"2026-10-07T09:50:00+03:00", title:"雅典 → 扎金索斯", meta:"09:50 起飞，10:50 落地，下午自由", tz:"雅典时间 UTC+3" },
+  { iso:"2026-10-08T09:00:00+03:00", title:"DAY12 · 扎金索斯出海", meta:"出海一日 · marpesa 晚餐", tz:"扎金索斯时间 UTC+3" },
+  { iso:"2026-10-09T21:20:00+03:00", title:"扎金索斯 → 雅典", meta:"21:20 起飞，22:30 回到雅典", tz:"扎金索斯时间 UTC+3" },
+  { iso:"2026-10-10T14:15:00+03:00", title:"雅典 → 北京 · CA864", meta:"14:15 起飞，次日 05:05 到北京（建议 11:00 到机场）", tz:"雅典时间 UTC+3" },
+  { iso:"2026-10-11T07:30:00+08:00", title:"北京 → 上海 · CA1507", meta:"07:30 起飞，10:00 抵达上海", tz:"北京时间 UTC+8" },
+  { iso:"2026-10-11T10:00:00+08:00", title:"回到温暖的家 🏠", meta:"旅程结束，一路平安", tz:"上海时间 UTC+8" },
+];
+
+// —— 机票（已出票）——
+const FLIGHTS = [
+  { seg:"去程 09/27", from:"上海 虹桥", to:"北京", dep:"08:55", arr:"11:40", no:"航班A（虹桥组 2 人）", tz:"上海时间 UTC+8" },
+  { seg:"去程 09/27", from:"上海 浦东", to:"北京", dep:"09:20", arr:"11:40", no:"CA8332（浦东组 2 人）", tz:"上海时间 UTC+8" },
+  { seg:"去程 09/27", from:"北京", to:"罗马 FCO", dep:"13:10", arr:"18:30", no:"CA939（4 人汇合）", tz:"起飞北京 UTC+8 / 落地罗马 UTC+2" },
+  { seg:"意→希 10/05", from:"那不勒斯 NAP", to:"雅典 ATH", dep:"17:50", arr:"20:35", no:"easyJet U24175", tz:"起飞那不勒斯 UTC+2 / 落地雅典 UTC+3" },
+  { seg:"跳岛 10/07", from:"雅典 ATH", to:"扎金索斯 ZTH", dep:"09:50", arr:"10:50", no:"国内航班", tz:"雅典时间 UTC+3" },
+  { seg:"跳岛 10/09", from:"扎金索斯 ZTH", to:"雅典 ATH", dep:"21:20", arr:"22:30", no:"国内航班", tz:"雅典时间 UTC+3" },
+  { seg:"回程 10/10", from:"雅典 ATH", to:"北京", dep:"14:15", arr:"05:05⁺¹", no:"CA864", tz:"起飞雅典 UTC+3 / 落地北京 UTC+8" },
+  { seg:"回程 10/11", from:"北京", to:"上海", dep:"07:30", arr:"10:00", no:"CA1507", tz:"北京时间 UTC+8" },
+];
+
+// —— 逐日行程 ——
+// col = 该天颜色；stops = 有序地点（用于当天多点导航 & 迷你地图）
+const DAYS = [
+  { n:"DAY1", date:"09/27", dow:"周日", col:"#c9772e",
+    route:"上海 → 罗马", sleep:"罗马 · Cavour 地铁站附近", mode:"transit",
+    items:[
+      { t:"08:55/09:20", name:"上海出发", desc:"两组分别从虹桥、浦东飞北京汇合" },
+      { t:"13:10", name:"北京 → 罗马 CA939", desc:"18:30 落地罗马 FCO" },
+      { t:"晚", name:"入住 · 吃饭休整", q:"Via Cavour, Roma", desc:"住 Cavour 地铁站附近，倒时差" },
+    ],
+    stops:[{name:"罗马 Cavour 区", q:"Via Cavour, Roma"}] },
+
+  { n:"DAY2", date:"09/28", dow:"周一", col:"#b4472e",
+    route:"罗马 · 古城核心", sleep:"罗马", mode:"walking",
+    items:[
+      { t:"全天", name:"斗兽场 + 古罗马广场 + 帕拉蒂尼山", q:"Colosseo, Roma", book:"联票·限时入场", desc:"斗兽场联票，务必按预约时段入场" },
+    ],
+    stops:[{name:"斗兽场", q:"Colosseo, Roma"},{name:"古罗马广场", q:"Foro Romano, Roma"},{name:"帕拉蒂尼山", q:"Palatino, Roma"}] },
+
+  { n:"DAY3", date:"09/29", dow:"周二", col:"#b4472e",
+    route:"罗马 · 梵蒂冈", sleep:"罗马", mode:"walking",
+    items:[
+      { t:"上午", name:"梵蒂冈博物馆 + 西斯廷礼拜堂", q:"Musei Vaticani", book:"建议预约免排队", desc:"周日闭馆，周二正常开放 ✓ 着装需遮肩过膝" },
+      { t:"中午", name:"圣彼得大教堂", q:"Basilica di San Pietro, Vaticano", desc:"可登顶穹顶俯瞰圣彼得广场" },
+    ],
+    stops:[{name:"梵蒂冈博物馆", q:"Musei Vaticani"},{name:"圣彼得大教堂", q:"Basilica di San Pietro"}] },
+
+  { n:"DAY4", date:"09/30", dow:"周三", col:"#b4472e",
+    route:"罗马 · 喷泉与花园", sleep:"罗马", mode:"walking",
+    items:[
+      { t:"上午", name:"特雷维喷泉 + 万神殿 + 西班牙台阶", q:"Fontana di Trevi, Roma", desc:"经典喷泉一圈，投硬币许愿" },
+      { t:"下午", name:"波尔盖塞美术馆", q:"Galleria Borghese, Roma", book:"必须提前预约·易售罄", desc:"⚠ 强制预约、固定时段、当天不卖票——最优先抢票" },
+      { t:"傍晚", name:"波尔盖塞公园划船", q:"Laghetto di Villa Borghese", desc:"湖上划船，公园散步" },
+    ],
+    stops:[{name:"特雷维喷泉", q:"Fontana di Trevi, Roma"},{name:"万神殿", q:"Pantheon, Roma"},{name:"波尔盖塞美术馆", q:"Galleria Borghese, Roma"}] },
+
+  { n:"DAY5", date:"10/01", dow:"周四", col:"#2e7d5b",
+    route:"罗马 → 佛罗伦萨", sleep:"佛罗伦萨 · 圣母百花附近", mode:"transit",
+    items:[
+      { t:"一早", name:"高铁 罗马 → 佛罗伦萨", q:"Roma Termini", book:"建议提前购火车票", desc:"Italo/Trenitalia，约 1.5 小时，越早买越便宜" },
+      { t:"下午", name:"乌菲兹美术馆", q:"Galleria degli Uffizi, Firenze", book:"建议预约", desc:"周一闭馆，周四正常 ✓ 优先安排（本日偏满，乌菲兹为主）" },
+      { t:"傍晚", name:"碧提宫 + 波波里花园（如时间够）", q:"Palazzo Pitti, Firenze", desc:"提示：只有半天，碧提宫/波波里可能来不及，酌情挪到 DAY6" },
+    ],
+    stops:[{name:"佛罗伦萨 SMN 站", q:"Firenze Santa Maria Novella"},{name:"乌菲兹美术馆", q:"Galleria degli Uffizi, Firenze"},{name:"碧提宫", q:"Palazzo Pitti, Firenze"}] },
+
+  { n:"DAY6", date:"10/02", dow:"周五", col:"#2e7d5b",
+    route:"佛罗伦萨 · 全天", sleep:"佛罗伦萨", mode:"walking",
+    items:[
+      { t:"上午", name:"圣母百花大教堂 + 逛街", q:"Cattedrale di Santa Maria del Fiore, Firenze", book:"登顶穹顶需预约·常售罄", desc:"登顶(布鲁内莱斯基穹顶)限时预约，容易满" },
+      { t:"下午", name:"领主广场 · 旧宫 · 老桥", q:"Piazza della Signoria, Firenze", desc:"露天雕塑博物馆，散步老桥" },
+      { t:"傍晚", name:"米开朗基罗广场看日落", q:"Piazzale Michelangelo, Firenze", desc:"俯瞰全城，日落绝佳机位" },
+    ],
+    stops:[{name:"圣母百花大教堂", q:"Cattedrale di Santa Maria del Fiore, Firenze"},{name:"领主广场", q:"Piazza della Signoria, Firenze"},{name:"老桥", q:"Ponte Vecchio, Firenze"},{name:"米开朗基罗广场", q:"Piazzale Michelangelo, Firenze"}] },
+
+  { n:"DAY7", date:"10/03", dow:"周六", col:"#1f6f6b",
+    route:"佛罗伦萨 → 那不勒斯", sleep:"那不勒斯", mode:"transit",
+    items:[
+      { t:"一早", name:"高铁 佛罗伦萨 → 那不勒斯", q:"Firenze Santa Maria Novella", book:"建议提前购火车票", desc:"约 3 小时，直达" },
+      { t:"下午", name:"国立考古博物馆", q:"Museo Archeologico Nazionale di Napoli", desc:"周二闭馆，周六正常 ✓ 庞贝出土文物精华" },
+      { t:"下午", name:"那不勒斯主教座堂", q:"Duomo di Napoli", desc:"圣真纳罗主保堂" },
+      { t:"16:00", name:"圣埃莫堡看城景", q:"Castel Sant'Elmo, Napoli", desc:"山顶城堡俯瞰那不勒斯湾与维苏威火山" },
+    ],
+    stops:[{name:"那不勒斯中央站", q:"Napoli Centrale"},{name:"国立考古博物馆", q:"Museo Archeologico Nazionale di Napoli"},{name:"主教座堂", q:"Duomo di Napoli"},{name:"圣埃莫堡", q:"Castel Sant'Elmo, Napoli"}] },
+
+  { n:"DAY8", date:"10/04", dow:"周日", col:"#1f6f6b",
+    route:"那不勒斯 ↔ 卡布里岛", sleep:"那不勒斯", mode:"transit",
+    items:[
+      { t:"一早", name:"坐船去卡布里岛", q:"Molo Beverello, Napoli", book:"建议早班船", desc:"从 Beverello 码头坐快船往返" },
+      { t:"上午", name:"蓝洞（看天气/海况）", q:"Grotta Azzurra, Capri", warn:"浪大可能关闭", desc:"⚠ 受海况影响，进不去就直接玩镇子" },
+      { t:"下午", name:"缆车上山 · 镇子 · 奥古斯都花园之字路", q:"Giardini di Augusto, Capri", desc:"Via Krupp 之字小径，绝景" },
+    ],
+    stops:[{name:"Beverello 码头", q:"Molo Beverello, Napoli"},{name:"卡布里蓝洞", q:"Grotta Azzurra, Capri"},{name:"奥古斯都花园", q:"Giardini di Augusto, Capri"}] },
+
+  { n:"DAY9", date:"10/05", dow:"周一", col:"#8e44ad",
+    route:"那不勒斯 → 雅典", sleep:"雅典", mode:"transit",
+    items:[
+      { t:"上午", name:"百年咖啡 Gambrinus + 逛街", q:"Gran Caffè Gambrinus, Napoli", desc:"那不勒斯老牌咖啡馆" },
+      { t:"15:50前", name:"抵达那不勒斯机场", q:"Aeroporto di Napoli-Capodichino", book:"国际段提前2h值机", desc:"easyJet 需提前网上值机" },
+      { t:"17:50", name:"那不勒斯 → 雅典 U24175", desc:"20:35 落地雅典" },
+      { t:"晚", name:"Pharaoh 晚餐 + Line 酒吧", q:"Pharaoh restaurant Athens", desc:"落地后市区晚餐+小酌" },
+    ],
+    stops:[{name:"Gambrinus 咖啡", q:"Gran Caffè Gambrinus, Napoli"},{name:"那不勒斯机场", q:"Aeroporto di Napoli-Capodichino"}] },
+
+  { n:"DAY10", date:"10/06", dow:"周二", col:"#2e6fb0",
+    route:"雅典 · 全天", sleep:"雅典", mode:"walking",
+    items:[
+      { t:"上午", name:"卫城（帕特农·伊瑞克提翁·胜利女神庙）", q:"Acropolis of Athens", book:"建议买限时票免排队", desc:"早去避开人潮与高温" },
+      { t:"中午", name:"卫城博物馆 + 普拉卡老城午餐", q:"Acropolis Museum, Athens", desc:"Plaka 老城区吃饭逛街" },
+      { t:"下午", name:"宪法广场整点卫兵换岗", q:"Syntagma Square, Athens", desc:"整点 Evzones 换兵仪式" },
+      { t:"傍晚", name:"利卡维多斯山缆车看日落 + 晚餐", q:"Lycabettus Hill, Athens", desc:"雅典最高点，俯瞰全城 + Psirri 区" },
+    ],
+    stops:[{name:"雅典卫城", q:"Acropolis of Athens"},{name:"卫城博物馆", q:"Acropolis Museum, Athens"},{name:"普拉卡老城", q:"Plaka, Athens"},{name:"宪法广场", q:"Syntagma Square, Athens"},{name:"利卡维多斯山", q:"Lycabettus Hill, Athens"}] },
+
+  { n:"DAY11", date:"10/07", dow:"周三", col:"#d4930b",
+    route:"雅典 → 扎金索斯", sleep:"扎金索斯", mode:"transit",
+    items:[
+      { t:"09:50", name:"雅典 → 扎金索斯（飞）", q:"Athens International Airport", desc:"10:50 落地，下午自由" },
+      { t:"下午", name:"躺酒店 · 泳池海景", q:"Zakynthos", desc:"休整，享受海岛" },
+      { t:"晚", name:"fish & show 晚餐", q:"Zakynthos Town", desc:"海鲜配表演" },
+    ],
+    stops:[{name:"扎金索斯机场", q:"Zakynthos International Airport"},{name:"扎金索斯镇", q:"Zakynthos Town"}] },
+
+  { n:"DAY12", date:"10/08", dow:"周四", col:"#d4930b",
+    route:"扎金索斯 · 出海", sleep:"扎金索斯", mode:"transit",
+    items:[
+      { t:"全天", name:"出海一日游（沉船湾 / 蓝洞）", q:"Navagio Beach, Zakynthos", book:"季末需确认船班", warn:"看天气", desc:"⚠ 10 月季末，出海班次少、看天气；沉船湾岸上限流多为船上远观" },
+      { t:"晚", name:"marpesa 晚餐", q:"Marpesa restaurant Zakynthos", desc:"" },
+    ],
+    stops:[{name:"沉船湾", q:"Navagio Beach, Zakynthos"},{name:"蓝洞", q:"Blue Caves, Zakynthos"}] },
+
+  { n:"DAY13", date:"10/09", dow:"周五", col:"#2e6fb0",
+    route:"扎金索斯 → 雅典", sleep:"雅典", mode:"transit",
+    items:[
+      { t:"白天", name:"扎金索斯半天 + 逛街", q:"Zakynthos Town", desc:"上午自由，逛镇子买手信" },
+      { t:"晚餐", name:"Symposio Restaurant", q:"Symposio Restaurant Zakynthos", desc:"" },
+      { t:"21:20", name:"扎金索斯 → 雅典（飞）", q:"Zakynthos International Airport", desc:"22:30 回到雅典住下" },
+    ],
+    stops:[{name:"扎金索斯镇", q:"Zakynthos Town"},{name:"扎金索斯机场", q:"Zakynthos International Airport"}] },
+
+  { n:"DAY14", date:"10/10", dow:"周六", col:"#7a7a7a",
+    route:"雅典 → 上海", sleep:"机上", mode:"transit",
+    items:[
+      { t:"11:00前", name:"抵达雅典机场", q:"Athens International Airport", book:"国际段提前3h", desc:"上午留足时间，别安排远行" },
+      { t:"14:15", name:"雅典 → 北京 CA864", desc:"次日 05:05 到北京" },
+    ],
+    stops:[{name:"雅典机场", q:"Athens International Airport"}] },
+
+  { n:"DAY15", date:"10/11", dow:"周日", col:"#7a7a7a",
+    route:"北京 → 上海 · 抵达", sleep:"温暖的家 🏠", mode:"transit",
+    items:[
+      { t:"07:30", name:"北京 → 上海 CA1507", desc:"" },
+      { t:"10:00", name:"抵达上海，回家", desc:"一路平安 ❤" },
+    ],
+    stops:[] },
+];
+
+// —— 待办清单（纯列表，非本地勾选；办完由手册维护者改 done:true）——
+const TODOS = [
+  { g:"🎫 抢票（有售罄风险，越早越好）", items:[
+    { t:"波尔盖塞美术馆预约（DAY4，强制预约、易售罄）", done:false },
+    { t:"圣母百花登顶穹顶预约（DAY6，常提前满）", done:false },
+    { t:"乌菲兹美术馆门票（DAY5）", done:false },
+    { t:"斗兽场联票限时入场（DAY2）", done:false },
+    { t:"梵蒂冈博物馆免排队预约（DAY3）", done:false },
+    { t:"雅典卫城限时票（DAY10）", done:false },
+    { t:"扎金索斯出海确认船班（DAY12，季末）", done:false },
+  ]},
+  { g:"🏨 住宿（订好发我截图，我补进页面）", items:[
+    { t:"罗马 4 晚（Cavour 地铁站附近）", done:false },
+    { t:"佛罗伦萨 2 晚（圣母百花附近）", done:false },
+    { t:"那不勒斯 2 晚", done:false },
+    { t:"雅典 2 晚 + 回程 1 晚", done:false },
+    { t:"扎金索斯 2 晚", done:false },
+  ]},
+  { g:"🚄 交通", items:[
+    { t:"罗马→佛罗伦萨 高铁票（DAY5）", done:false },
+    { t:"佛罗伦萨→那不勒斯 高铁票（DAY7）", done:false },
+    { t:"卡布里岛往返船票（DAY8）", done:false },
+    { t:"easyJet 提前网上值机（DAY9）", done:false },
+    { t:"各段机票值机 / 选座", done:false },
+  ]},
+  { g:"🧳 出行准备（4 人）", items:[
+    { t:"申根签证 / 护照有效期 6 个月以上", done:false },
+    { t:"欧标转换插头（意/希均 Type F，230V）", done:false },
+    { t:"欧元现金 + 可国际支付的卡", done:false },
+    { t:"境外流量 / eSIM（欧盟内通用）", done:false },
+    { t:"旅行保险（申根建议医疗险）", done:false },
+    { t:"护照复印件 / 电子备份", done:false },
+  ]},
+];
+
+// —— 实用贴士 ——
+const TIPS = [
+  { i:"🕐", t:"时差", c:"意大利比中国晚 6 小时，希腊晚 5 小时。手册所有时间都标了当地时区，倒计时按绝对时刻算，跨时区打开不会错。" },
+  { i:"🔌", t:"电源插头", c:"电压 230V。意大利常见 Type L/F、希腊 Type C/F，带一个欧标转换头（双圆脚）即可，最好多带几个。" },
+  { i:"💶", t:"货币与支付", c:"两国都用欧元。大城市刷卡普遍，海岛/小店备些现金。餐厅可能有 coperto（餐位费），非强制小费。" },
+  { i:"👕", t:"教堂着装", c:"梵蒂冈、圣彼得、各大教堂要求遮肩过膝，带条披肩或薄外套，短裤/背心可能被拦。" },
+  { i:"🎒", t:"防扒手", c:"罗马、那不勒斯、雅典地铁与热门景点扒手多，背包前背、别把手机放后袋，火车站尤其注意。" },
+  { i:"⛴️", t:"看天出海", c:"卡布里蓝洞、扎金索斯出海都受海况影响，10 月季末班次减少。出发前一天查天气、留弹性。" },
+  { i:"🚄", t:"火车高铁", c:"Italo / Trenitalia 越早买越便宜，认准车站大屏的站台号，进站不检票但上车会查票，提前 20 分钟到站。" },
+  { i:"✈️", t:"廉航规则", c:"easyJet 需提前在 App 网上值机拿登机牌；随身行李尺寸/重量卡得严，托运另收费，提前买好行李额度。" },
+  { i:"🆘", t:"紧急电话", c:"欧洲通用急救 112（意大利、希腊都可用）。中国驻意/驻希使馆领保电话建议出发前存好。" },
+  { i:"🌅", t:"日落机位", c:"米开朗基罗广场（佛罗伦萨）、利卡维多斯山（雅典）都是看日落的好地方，提前 40 分钟占位。" },
+];
+
+/* =====================================================================
+   渲染 & 交互
+   ===================================================================== */
+const $ = (id) => document.getElementById(id);
+const mapsNav = (q) => `https://www.google.com/maps/dir/?api=1&destination=${Q(q)}`;
+const mapsMulti = (stops, mode) => {
+  if (!stops.length) return null;
+  const pts = stops.map(s => s.q);
+  const origin = pts[0];
+  const destination = pts[pts.length - 1];
+  const way = pts.slice(1, -1).map(Q).join("%7C");
+  let url = `https://www.google.com/maps/dir/?api=1&origin=${Q(origin)}&destination=${Q(destination)}&travelmode=${mode||"walking"}`;
+  if (way) url += `&waypoints=${way}`;
+  return url;
+};
+
+/* ---- 倒计时 ---- */
+function pad(n){ return String(n).padStart(2,"0"); }
+function tick(){
+  const now = Date.now();
+  let ev = EVENTS.find(e => new Date(e.iso).getTime() > now);
+  if (!ev){
+    $("evTitle").textContent = "旅程已圆满结束 🏠";
+    $("evMeta").textContent = "欢迎回家！";
+    $("tzNote").textContent = "";
+    ["cdD","cdH","cdM","cdS"].forEach(k=>$(k).textContent="0");
+    return;
+  }
+  $("evTitle").textContent = ev.title;
+  $("evMeta").innerHTML = ev.meta ? `<b>${ev.meta}</b>` : "";
+  $("tzNote").textContent = "锚点时间：" + ev.tz + "（倒计时按绝对时刻计算，任意时区打开都准确）";
+  let diff = Math.max(0, new Date(ev.iso).getTime() - now);
+  const d = Math.floor(diff/86400000); diff -= d*86400000;
+  const h = Math.floor(diff/3600000); diff -= h*3600000;
+  const m = Math.floor(diff/60000); diff -= m*60000;
+  const s = Math.floor(diff/1000);
+  $("cdD").textContent = d;
+  $("cdH").textContent = pad(h);
+  $("cdM").textContent = pad(m);
+  $("cdS").textContent = pad(s);
+}
+
+/* ---- 机票 / 预订 ---- */
+function renderBookings(){
+  const box = $("bookings");
+  let html = `<div class="booking"><div class="b-head"><span class="ico">✈️</span>机票（已出票）</div>`;
+  let lastSeg = "";
+  FLIGHTS.forEach(f => {
+    if (f.seg !== lastSeg){ html += `<div class="fl-no" style="margin:8px 0 2px;color:var(--accent2);font-weight:700">${f.seg}</div>`; lastSeg = f.seg; }
+    html += `
+      <div class="flight-leg">
+        <div><div class="fl-city">${f.from}</div><div class="fl-time">${f.dep} 起飞</div></div>
+        <div class="fl-mid"><div class="plane">✈️</div><div>${f.no}</div></div>
+        <div style="text-align:right"><div class="fl-city">${f.to}</div><div class="fl-time">${f.arr} 到达</div></div>
+      </div>
+      <div class="fl-no" style="text-align:center;margin-bottom:4px">${f.tz}</div>`;
+  });
+  html += `</div>`;
+
+  // 酒店（待定）
+  html += `<div class="booking"><div class="b-head"><span class="ico">🏨</span>酒店</div>
+    <div class="pending">住宿订好后，把订单截图发我，我补上<b>地址 / 电话 / 入住退房时间</b>。<br>
+    计划：罗马 4 晚 · 佛罗伦萨 2 晚 · 那不勒斯 2 晚 · 雅典 2 晚 · 扎金索斯 2 晚 · 雅典 1 晚（回程）</div></div>`;
+
+  // 门票（待定）
+  html += `<div class="booking"><div class="b-head"><span class="ico">🎫</span>门票</div>
+    <div class="pending">门票预约后发我截图即可补入。<br>
+    <b>需提前预约：</b>波尔盖塞美术馆 · 圣母百花登顶 · 乌菲兹 · 斗兽场联票 · 梵蒂冈博物馆 · 雅典卫城</div></div>`;
+
+  // 租车
+  html += `<div class="booking"><div class="b-head"><span class="ico">🚗</span>租车</div>
+    <div class="pending">本次不租车，全程高铁 / 飞机 / 船 + 步行。</div></div>`;
+
+  box.innerHTML = html;
+}
+
+/* ---- 逐日行程 ---- */
+function renderDays(){
+  const box = $("days");
+  box.innerHTML = DAYS.map((d, i) => {
+    const items = d.items.map(it => {
+      const nameHtml = it.q
+        ? `<a class="loc-link" href="${mapsNav(it.q)}" target="_blank" rel="noopener">${it.name} ↗</a>`
+        : `<span>${it.name}</span>`;
+      const tags = (it.book ? `<span class="tag book">需订 ${it.book}</span>` : "")
+                 + (it.warn ? `<span class="tag warn">${it.warn}</span>` : "");
+      return `<div class="tl-item">
+        <div class="tl-time">${it.t}</div>
+        <div class="tl-body"><div class="name">${nameHtml}${tags}</div>${it.desc?`<div class="desc">${it.desc}</div>`:""}</div>
+      </div>`;
+    }).join("");
+
+    const multi = mapsMulti(d.stops, d.mode);
+    const actions = `<div class="day-actions">
+      ${d.stops.length ? `<button class="btn" onclick="toggleMini(${i})">🗺️ 当日路线图</button>` : ""}
+      ${multi ? `<a class="btn primary" href="${multi}" target="_blank" rel="noopener">🧭 一键全天多点导航</a>` : ""}
+    </div>`;
+
+    const mini = d.stops.length ? `<div class="mini-map-box" id="mini${i}">${miniMapSVG(d)}</div>` : "";
+
+    return `<div class="day" data-i="${i}" style="--daycol:${d.col}">
+      <div class="day-head" onclick="toggleDay(${i})">
+        <div class="day-badge"><div class="d">${d.n}</div><div class="date">${d.date}</div></div>
+        <div class="day-title"><div class="rt">${d.route}</div><div class="sleep"><span class="bed">🛏</span> 住：${d.sleep} · ${d.dow}</div></div>
+        <div class="chev">▾</div>
+      </div>
+      <div class="day-body">
+        ${actions}
+        ${mini}
+        <div class="timeline">${items}</div>
+      </div>
+    </div>`;
+  }).join("");
+}
+function toggleDay(i){ document.querySelector(`.day[data-i="${i}"]`).classList.toggle("open"); }
+function toggleMini(i){ event.stopPropagation(); $("mini"+i).classList.toggle("show"); }
+
+/* ---- 当日迷你路线图（简易手绘）---- */
+function miniMapSVG(d){
+  const n = d.stops.length;
+  const W = 320, H = 40 + n*46;
+  let pts = d.stops.map((s, k) => ({ x: 40 + (k%2)*0, y: 30 + k*46, s }));
+  // 交错左右，走线更像路线
+  pts = d.stops.map((s,k)=>({ x: (k%2===0? 60 : 200), y: 30 + k*44, s }));
+  let path = "";
+  pts.forEach((p,k)=>{ path += (k===0?`M ${p.x} ${p.y}`:` L ${p.x} ${p.y}`); });
+  const nodes = pts.map((p,k)=>`
+    <circle cx="${p.x}" cy="${p.y}" r="7" fill="${d.col}" filter="url(#rough2)"/>
+    <text x="${p.x}" y="${p.y+4}" text-anchor="middle" font-size="9" fill="#fff" font-weight="700">${k+1}</text>
+    <text x="${p.x+14}" y="${p.y+4}" font-size="12" fill="var(--ink)">${p.s.name}</text>`).join("");
+  const H2 = 30 + pts.length*44 + 10;
+  return `<svg class="handmap" viewBox="0 0 320 ${H2}" xmlns="http://www.w3.org/2000/svg">
+    <defs><filter id="rough2"><feTurbulence baseFrequency="0.02" numOctaves="2" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.5"/></filter></defs>
+    <path d="${path}" fill="none" stroke="${d.col}" stroke-width="2.5" stroke-dasharray="6 5" stroke-linecap="round" filter="url(#rough2)"/>
+    ${nodes}
+  </svg>`;
+}
+
+/* ---- 总览手绘地图 ---- */
+function renderOverview(){
+  // 节点示意坐标（非地理精确，仅示意）
+  const P = {
+    firenze:{x:250,y:150,label:"佛罗伦萨",n:"2晚"},
+    roma:{x:300,y:255,label:"罗马",n:"4晚"},
+    napoli:{x:345,y:350,label:"那不勒斯",n:"2晚"},
+    capri:{x:360,y:410,label:"卡布里",n:""},
+    athina:{x:775,y:340,label:"雅典",n:"2+1晚"},
+    zante:{x:630,y:445,label:"扎金索斯",n:"2晚"},
+  };
+  // 路线段：[from,to,color,glyph,label]
+  const legs = [
+    ["roma","firenze","#2e7d5b","🚄","10/1 高铁"],
+    ["firenze","napoli","#1f6f6b","🚄","10/3 高铁"],
+    ["napoli","capri","#1f6f6b","⛴️","10/4 船"],
+    ["napoli","athina","#8e44ad","✈️","10/5 飞"],
+    ["athina","zante","#d4930b","✈️","10/7 飞"],
+    ["zante","athina","#2e6fb0","✈️","10/9 飞"],
+  ];
+  const bezier = (a,b) => {
+    const mx=(a.x+b.x)/2, my=(a.y+b.y)/2 - 34;
+    return `M ${a.x} ${a.y} Q ${mx} ${my} ${b.x} ${b.y}`;
+  };
+  let paths = legs.map(([f,t,c],idx)=>{
+    const a=P[f],b=P[t];
+    return `<path d="${bezier(a,b)}" fill="none" stroke="${c}" stroke-width="3" stroke-dasharray="9 7" stroke-linecap="round" filter="url(#rough)"/>`;
+  }).join("");
+  let glyphs = legs.map(([f,t,c,g,lab])=>{
+    const a=P[f],b=P[t]; const mx=(a.x+b.x)/2, my=(a.y+b.y)/2-30;
+    return `<text x="${mx}" y="${my}" text-anchor="middle" font-size="15">${g}</text>
+            <text x="${mx}" y="${my+15}" text-anchor="middle" font-size="9.5" fill="var(--ink-soft)">${lab}</text>`;
+  }).join("");
+  let nodes = Object.values(P).map(p=>`
+    <g>
+      <circle cx="${p.x}" cy="${p.y}" r="9" fill="var(--accent)" filter="url(#rough)"/>
+      <text x="${p.x}" y="${p.y-14}" text-anchor="middle" font-size="13" font-weight="800" fill="var(--ink)">${p.label}</text>
+      ${p.n?`<text x="${p.x}" y="${p.y+22}" text-anchor="middle" font-size="10" fill="var(--accent2)">🛏 ${p.n}</text>`:""}
+    </g>`).join("");
+  // 进出港箭头
+  const inout = `
+    <text x="${P.roma.x-40}" y="${P.roma.y-40}" font-size="12" fill="var(--ink-soft)">✈️ 上海飞入</text>
+    <path d="M ${P.roma.x-55} ${P.roma.y-30} Q ${P.roma.x-30} ${P.roma.y-20} ${P.roma.x-9} ${P.roma.y-6}" fill="none" stroke="var(--ink-soft)" stroke-width="2" stroke-dasharray="4 4" filter="url(#rough)"/>
+    <text x="${P.athina.x-10}" y="${P.athina.y+50}" font-size="12" fill="var(--ink-soft)">✈️ 飞回上海</text>
+    <path d="M ${P.athina.x} ${P.athina.y+10} Q ${P.athina.x+10} ${P.athina.y+30} ${P.athina.x+5} ${P.athina.y+40}" fill="none" stroke="var(--ink-soft)" stroke-width="2" stroke-dasharray="4 4" filter="url(#rough)"/>`;
+
+  const svg = `<svg class="handmap" viewBox="0 40 900 520" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <filter id="rough"><feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="2" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.5"/></filter>
+    </defs>
+    <text x="120" y="90" font-size="20" font-weight="800" fill="var(--ink-soft)" opacity="0.5" font-style="italic">🇮🇹 Italia</text>
+    <text x="650" y="120" font-size="20" font-weight="800" fill="var(--ink-soft)" opacity="0.5" font-style="italic">🇬🇷 Ελλάδα</text>
+    ${paths}${glyphs}${inout}${nodes}
+  </svg>`;
+  $("overviewMapCard").innerHTML = svg + `
+    <div class="map-legend">
+      <span><i class="lg-line" style="border-color:#2e7d5b"></i>火车</span>
+      <span><i class="lg-line" style="border-color:#8e44ad"></i>意→希 飞</span>
+      <span><i class="lg-line" style="border-color:#d4930b"></i>去海岛</span>
+      <span><i class="lg-line" style="border-color:#2e6fb0"></i>回雅典</span>
+      <span>🛏 = 每晚落脚点</span>
+    </div>`;
+}
+
+/* ---- 待办 ---- */
+function renderTodos(){
+  $("todos").innerHTML = TODOS.map(g=>`
+    <div class="todo-group">
+      <h3>${g.g}</h3>
+      <ul class="todo-list">
+        ${g.items.map(it=>`<li class="${it.done?"done":""}">${it.t}</li>`).join("")}
+      </ul>
+    </div>`).join("");
+}
+
+/* ---- 贴士 ---- */
+function renderTips(){
+  $("tips").innerHTML = TIPS.map(t=>`
+    <div class="tip"><div class="t">${t.i} ${t.t}</div><div class="c">${t.c}</div></div>`).join("");
+}
+
+/* ---- 主题：白天/黑夜自动切换 ---- */
+let themeMode = "auto"; // auto | light | dark
+function applyTheme(){
+  let theme;
+  if (themeMode === "auto"){
+    const h = new Date().getHours();
+    theme = (h >= 7 && h < 19) ? "light" : "dark";
+    $("themeBtn").textContent = "◐ 自动";
+  } else {
+    theme = themeMode;
+    $("themeBtn").textContent = themeMode === "light" ? "☀ 白天" : "🌙 黑夜";
+  }
+  document.documentElement.setAttribute("data-theme", theme);
+  document.querySelector('meta[name=theme-color]').setAttribute("content", theme==="dark"?"#14161b":"#f3ead6");
+}
+$("themeBtn").addEventListener("click", ()=>{
+  themeMode = themeMode === "auto" ? "light" : themeMode === "light" ? "dark" : "auto";
+  applyTheme();
+});
+
+/* ---- 启动 ---- */
+renderBookings();
+renderDays();
+renderOverview();
+renderTodos();
+renderTips();
+applyTheme();
+tick();
+setInterval(tick, 1000);
+setInterval(applyTheme, 60000); // 每分钟检查白天/黑夜
+// 默认展开「下一个未过去的行程日」
+(function openNextDay(){
+  const today = new Date();
+  const idx = DAYS.findIndex(d=>{
+    const [mm,dd] = d.date.split("/").map(Number);
+    const dt = new Date(2026, mm-1, dd, 23, 59);
+    return dt.getTime() >= today.getTime();
+  });
+  if (idx >= 0) document.querySelector(`.day[data-i="${idx}"]`)?.classList.add("open");
+})();
+</script>
+</body>
+</html>

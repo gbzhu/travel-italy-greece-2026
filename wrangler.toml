@@ -1,0 +1,7 @@
+name = "travel-italy-greece-2026"
+compatibility_date = "2026-09-08"
+
+# 纯静态托管：把 public/ 目录里的文件直接当网站发布，无需写 Worker 代码。
+# Cloudflare 连接 GitHub 后，每次 push 会自动 `wrangler deploy` 并上线。
+[assets]
+directory = "./public"
