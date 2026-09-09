@@ -20,6 +20,7 @@
     --shadow: 0 6px 22px rgba(90,70,30,.14);
     --tape: rgba(180,140,60,.22);
     --radius: 16px;
+    --sea: #cfe6ea; --land: #ece0c0; --coast: #c3ab7e;
   }
   html[data-theme="dark"] {
     --bg: #14161b;
@@ -33,6 +34,7 @@
     --gold: #d9b25a;
     --shadow: 0 6px 24px rgba(0,0,0,.45);
     --tape: rgba(210,180,110,.14);
+    --sea: #16303a; --land: #2a2e28; --coast: #45503f;
   }
 
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -618,67 +620,117 @@ function miniMapSVG(d){
   </svg>`;
 }
 
-/* ---- 总览手绘地图 ---- */
+/* ---- 总览手绘地图（含陆地/海洋轮廓，示意非精确）---- */
 function renderOverview(){
-  // 节点示意坐标（非地理精确，仅示意）
+  // 城市坐标（拉开间距，避免线路重叠）
   const P = {
-    firenze:{x:250,y:150,label:"佛罗伦萨",n:"2晚"},
-    roma:{x:300,y:255,label:"罗马",n:"4晚"},
-    napoli:{x:345,y:350,label:"那不勒斯",n:"2晚"},
-    capri:{x:360,y:410,label:"卡布里",n:""},
-    athina:{x:775,y:340,label:"雅典",n:"2+1晚"},
-    zante:{x:630,y:445,label:"扎金索斯",n:"2晚"},
+    firenze:{x:252,y:196,label:"佛罗伦萨",n:"2晚"},
+    roma:   {x:262,y:292,label:"罗马",n:"4晚"},
+    napoli: {x:308,y:392,label:"那不勒斯",n:"2晚"},
+    capri:  {x:286,y:438,label:"卡布里",n:""},
+    athina: {x:805,y:350,label:"雅典",n:"2+1晚"},
+    zante:  {x:610,y:460,label:"扎金索斯",n:"2晚"},
   };
-  // 路线段：[from,to,color,glyph,label]
+  // 每段线路自带控制点 c=[cx,cy]，弧线朝不同方向，互不重叠；带方向箭头
   const legs = [
-    ["roma","firenze","#2e7d5b","🚄","10/1 高铁"],
-    ["firenze","napoli","#1f6f6b","🚄","10/3 高铁"],
-    ["napoli","capri","#1f6f6b","⛴️","10/4 船"],
-    ["napoli","athina","#8e44ad","✈️","10/5 飞"],
-    ["athina","zante","#d4930b","✈️","10/7 飞"],
-    ["zante","athina","#2e6fb0","✈️","10/9 飞"],
+    { f:"roma",   t:"firenze", c:[214,242], col:"#2e7d5b", g:"🚄", lab:"10/1 高铁" },
+    { f:"firenze",t:"napoli",  c:[404,282], col:"#1f6f6b", g:"🚄", lab:"10/3 高铁" },
+    { f:"napoli", t:"capri",   c:[276,408], col:"#0d9488", g:"⛴️", lab:"10/4 船" },
+    { f:"napoli", t:"athina",  c:[560,222], col:"#8e44ad", g:"✈️", lab:"10/5 飞" },
+    { f:"athina", t:"zante",   c:[705,548], col:"#d4930b", g:"✈️", lab:"10/7 飞" },
+    { f:"zante",  t:"athina",  c:[712,378], col:"#2e6fb0", g:"✈️", lab:"10/9 飞" },
   ];
-  const bezier = (a,b) => {
-    const mx=(a.x+b.x)/2, my=(a.y+b.y)/2 - 34;
-    return `M ${a.x} ${a.y} Q ${mx} ${my} ${b.x} ${b.y}`;
+  const qmid = (a,c,b) => ({ x:(a.x+2*c[0]+b.x)/4, y:(a.y+2*c[1]+b.y)/4 }); // 二次贝塞尔中点
+  const qpt  = (a,c,b,t) => ({ x:(1-t)*(1-t)*a.x+2*(1-t)*t*c[0]+t*t*b.x, y:(1-t)*(1-t)*a.y+2*(1-t)*t*c[1]+t*t*b.y });
+  const qtan = (a,c,b,t) => ({ x:2*(1-t)*(c[0]-a.x)+2*t*(b.x-c[0]), y:2*(1-t)*(c[1]-a.y)+2*t*(b.y-c[1]) });
+  // 在线路接近终点处画一个指向目的地的箭头
+  const arrowFor = (a,c,b,col) => {
+    const t=0.82, p=qpt(a,c,b,t), tg=qtan(a,c,b,t);
+    const ang=Math.atan2(tg.y,tg.x), s=12, dx=Math.cos(ang), dy=Math.sin(ang), px=-dy, py=dx;
+    const bx=p.x-s*dx, by=p.y-s*dy;
+    const c1x=bx+px*s*0.6, c1y=by+py*s*0.6, c2x=bx-px*s*0.6, c2y=by-py*s*0.6;
+    return `<path d="M ${p.x.toFixed(1)} ${p.y.toFixed(1)} L ${c1x.toFixed(1)} ${c1y.toFixed(1)} L ${c2x.toFixed(1)} ${c2y.toFixed(1)} Z" fill="${col}" stroke="var(--card)" stroke-width="1"/>`;
   };
-  let paths = legs.map(([f,t,c],idx)=>{
-    const a=P[f],b=P[t];
-    return `<path d="${bezier(a,b)}" fill="none" stroke="${c}" stroke-width="3" stroke-dasharray="9 7" stroke-linecap="round" filter="url(#rough)"/>`;
-  }).join("");
-  let glyphs = legs.map(([f,t,c,g,lab])=>{
-    const a=P[f],b=P[t]; const mx=(a.x+b.x)/2, my=(a.y+b.y)/2-30;
-    return `<text x="${mx}" y="${my}" text-anchor="middle" font-size="15">${g}</text>
-            <text x="${mx}" y="${my+15}" text-anchor="middle" font-size="9.5" fill="var(--ink-soft)">${lab}</text>`;
-  }).join("");
-  let nodes = Object.values(P).map(p=>`
-    <g>
-      <circle cx="${p.x}" cy="${p.y}" r="9" fill="var(--accent)" filter="url(#rough)"/>
-      <text x="${p.x}" y="${p.y-14}" text-anchor="middle" font-size="13" font-weight="800" fill="var(--ink)">${p.label}</text>
-      ${p.n?`<text x="${p.x}" y="${p.y+22}" text-anchor="middle" font-size="10" fill="var(--accent2)">🛏 ${p.n}</text>`:""}
-    </g>`).join("");
-  // 进出港箭头
-  const inout = `
-    <text x="${P.roma.x-40}" y="${P.roma.y-40}" font-size="12" fill="var(--ink-soft)">✈️ 上海飞入</text>
-    <path d="M ${P.roma.x-55} ${P.roma.y-30} Q ${P.roma.x-30} ${P.roma.y-20} ${P.roma.x-9} ${P.roma.y-6}" fill="none" stroke="var(--ink-soft)" stroke-width="2" stroke-dasharray="4 4" filter="url(#rough)"/>
-    <text x="${P.athina.x-10}" y="${P.athina.y+50}" font-size="12" fill="var(--ink-soft)">✈️ 飞回上海</text>
-    <path d="M ${P.athina.x} ${P.athina.y+10} Q ${P.athina.x+10} ${P.athina.y+30} ${P.athina.x+5} ${P.athina.y+40}" fill="none" stroke="var(--ink-soft)" stroke-width="2" stroke-dasharray="4 4" filter="url(#rough)"/>`;
 
-  const svg = `<svg class="handmap" viewBox="0 40 900 520" xmlns="http://www.w3.org/2000/svg">
+  const paths = legs.map(l=>{
+    const a=P[l.f], b=P[l.t];
+    return `<path d="M ${a.x} ${a.y} Q ${l.c[0]} ${l.c[1]} ${b.x} ${b.y}" fill="none" stroke="${l.col}" stroke-width="3.2" stroke-dasharray="10 7" stroke-linecap="round" filter="url(#rough)"/>`;
+  }).join("");
+
+  const arrows = legs.map(l=>arrowFor(P[l.f],l.c,P[l.t],l.col)).join("");
+
+  const badges = legs.map(l=>{
+    const a=P[l.f], b=P[l.t], m=qmid(a,l.c,b);
+    return `<g>
+      <circle cx="${m.x}" cy="${m.y}" r="13" fill="var(--card)" stroke="${l.col}" stroke-width="1.5"/>
+      <text x="${m.x}" y="${m.y+5}" text-anchor="middle" font-size="14">${l.g}</text>
+      <text x="${m.x}" y="${m.y+27}" text-anchor="middle" font-size="10" font-weight="700" fill="${l.col}" style="paint-order:stroke;stroke:var(--card);stroke-width:3px">${l.lab}</text>
+    </g>`;
+  }).join("");
+
+  const nodes = Object.values(P).map(p=>`
+    <g>
+      <circle cx="${p.x}" cy="${p.y}" r="6.5" fill="var(--accent)" stroke="var(--card)" stroke-width="2"/>
+      <text x="${p.x}" y="${p.y-12}" text-anchor="middle" font-size="14" font-weight="800" fill="var(--ink)" style="paint-order:stroke;stroke:var(--card);stroke-width:3.5px">${p.label}</text>
+    </g>`).join("");
+
+  // 陆地轮廓（手绘示意，非地理精确）
+  const ITALY = "M 200 152 L 300 126 L 352 132 L 366 206 L 372 258 L 402 300 L 424 308 L 400 330 L 414 374 L 452 410 L 458 424 L 410 420 L 380 432 L 344 484 L 300 508 L 324 466 L 322 436 L 300 404 L 308 384 L 272 330 L 250 296 L 232 256 L 210 230 L 216 200 L 196 180 Z";
+  const SICILY = "M 296 512 L 224 520 L 262 554 Z";
+  const GREECE = "M 690 235 C 740 218 820 222 852 250 C 878 272 862 300 872 322 C 882 345 858 352 838 350 C 820 349 812 366 800 372 C 782 380 772 366 758 374 C 740 384 748 404 730 410 C 712 416 700 404 706 388 C 712 372 694 366 700 348 C 705 322 730 320 724 296 C 718 268 700 258 706 235 C 700 228 696 228 690 235 Z";
+  const CRETE = "M 720 505 C 780 497 850 500 872 510 C 882 517 850 523 800 521 C 760 520 720 521 712 513 C 710 508 714 506 720 505 Z";
+
+  const land = `
+    <path d="${ITALY}"  fill="var(--land)" stroke="var(--coast)" stroke-width="2" filter="url(#rough)"/>
+    <path d="${SICILY}" fill="var(--land)" stroke="var(--coast)" stroke-width="2" filter="url(#rough)"/>
+    <ellipse cx="118" cy="322" rx="24" ry="38" fill="var(--land)" stroke="var(--coast)" stroke-width="2" filter="url(#rough)"/>
+    <path d="${GREECE}" fill="var(--land)" stroke="var(--coast)" stroke-width="2" filter="url(#rough)"/>
+    <path d="${CRETE}"  fill="var(--land)" stroke="var(--coast)" stroke-width="2" filter="url(#rough)"/>
+    <ellipse cx="610" cy="460" rx="16" ry="24" fill="var(--land)" stroke="var(--coast)" stroke-width="2" filter="url(#rough)"/>
+    <circle cx="586" cy="432" r="5" fill="var(--land)" stroke="var(--coast)" stroke-width="1.5"/>
+    <circle cx="600" cy="410" r="4" fill="var(--land)" stroke="var(--coast)" stroke-width="1.5"/>`;
+
+  // 海面波纹装饰
+  let waves = "";
+  [[430,150],[470,250],[500,540]].forEach(([x,y])=>{
+    waves += `<path d="M ${x} ${y} q 12 -8 24 0 t 24 0 t 24 0" fill="none" stroke="var(--coast)" stroke-width="1.4" opacity="0.35" stroke-linecap="round"/>`;
+  });
+
+  // 进出港（上海往返）
+  const inout = `
+    <path d="M 168 168 Q 230 215 279 283" fill="none" stroke="var(--ink-soft)" stroke-width="2" stroke-dasharray="3 5" filter="url(#rough)"/>
+    <text x="150" y="150" font-size="12.5" fill="var(--ink-soft)" style="paint-order:stroke;stroke:var(--sea);stroke-width:3px">✈️ 上海飞入 · 9/27</text>
+    <path d="M 812 344 Q 878 252 900 192" fill="none" stroke="var(--ink-soft)" stroke-width="2" stroke-dasharray="3 5" filter="url(#rough)"/>
+    <text x="838" y="176" font-size="12.5" fill="var(--ink-soft)" style="paint-order:stroke;stroke:var(--sea);stroke-width:3px">✈️ 飞回上海 · 10/10</text>`;
+
+  // 指南针
+  const compass = `<g transform="translate(905,95)" opacity="0.55">
+    <circle r="16" fill="none" stroke="var(--coast)" stroke-width="1.5"/>
+    <path d="M 0 -16 L 4 0 L 0 16 L -4 0 Z" fill="var(--accent)"/>
+    <text x="0" y="-20" text-anchor="middle" font-size="10" font-weight="800" fill="var(--ink-soft)">N</text>
+  </g>`;
+
+  const svg = `<svg class="handmap" viewBox="0 0 960 620" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      <filter id="rough"><feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="2" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.5"/></filter>
+      <filter id="rough"><feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="2" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="4"/></filter>
     </defs>
-    <text x="120" y="90" font-size="20" font-weight="800" fill="var(--ink-soft)" opacity="0.5" font-style="italic">🇮🇹 Italia</text>
-    <text x="650" y="120" font-size="20" font-weight="800" fill="var(--ink-soft)" opacity="0.5" font-style="italic">🇬🇷 Ελλάδα</text>
-    ${paths}${glyphs}${inout}${nodes}
+    <rect x="0" y="0" width="960" height="620" fill="var(--sea)"/>
+    ${waves}
+    ${land}
+    <text x="235" y="565" font-size="18" font-weight="800" fill="var(--ink-soft)" opacity="0.45" font-style="italic">🇮🇹 ITALIA</text>
+    <text x="740" y="270" font-size="18" font-weight="800" fill="var(--ink-soft)" opacity="0.45" font-style="italic">🇬🇷 ΕΛΛΑΔΑ</text>
+    <text x="470" y="330" font-size="12" fill="var(--ink-soft)" opacity="0.4" font-style="italic">地 中 海 / 爱 奥 尼 亚 海</text>
+    ${compass}
+    ${paths}${arrows}${inout}${badges}${nodes}
   </svg>`;
+
   $("overviewMapCard").innerHTML = svg + `
     <div class="map-legend">
-      <span><i class="lg-line" style="border-color:#2e7d5b"></i>火车</span>
-      <span><i class="lg-line" style="border-color:#8e44ad"></i>意→希 飞</span>
-      <span><i class="lg-line" style="border-color:#d4930b"></i>去海岛</span>
-      <span><i class="lg-line" style="border-color:#2e6fb0"></i>回雅典</span>
-      <span>🛏 = 每晚落脚点</span>
+      <span><i class="lg-line" style="border-color:#1f6f6b"></i>🚄 火车</span>
+      <span><i class="lg-line" style="border-color:#8e44ad"></i>✈️ 意→希</span>
+      <span><i class="lg-line" style="border-color:#d4930b"></i>✈️ 去海岛</span>
+      <span><i class="lg-line" style="border-color:#2e6fb0"></i>✈️ 回雅典</span>
+      <span style="opacity:.7">点城市看真实地图 →</span>
     </div>`;
 }
 
