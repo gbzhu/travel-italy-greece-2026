@@ -625,9 +625,9 @@ function renderOverview(){
   // 城市坐标（拉开间距，避免线路重叠）
   const P = {
     firenze:{x:252,y:196,label:"佛罗伦萨",n:"2晚"},
-    roma:   {x:262,y:292,label:"罗马",n:"4晚"},
-    napoli: {x:308,y:392,label:"那不勒斯",n:"2晚"},
-    capri:  {x:286,y:438,label:"卡布里",n:""},
+    roma:   {x:262,y:292,label:"罗马",n:"4晚",lp:"below"},
+    napoli: {x:308,y:392,label:"那不勒斯",n:"2晚",lp:"right"},
+    capri:  {x:258,y:466,label:"卡布里",n:"",lp:"below"},
     athina: {x:805,y:350,label:"雅典",n:"2+1晚"},
     zante:  {x:610,y:460,label:"扎金索斯",n:"2晚"},
   };
@@ -635,7 +635,7 @@ function renderOverview(){
   const legs = [
     { f:"roma",   t:"firenze", c:[214,242], col:"#2e7d5b", g:"🚄", lab:"10/1 高铁" },
     { f:"firenze",t:"napoli",  c:[404,282], col:"#1f6f6b", g:"🚄", lab:"10/3 高铁" },
-    { f:"napoli", t:"capri",   c:[276,408], col:"#0d9488", g:"⛴️", lab:"10/4 船" },
+    { f:"napoli", t:"capri",   c:[250,412], col:"#0d9488", g:"⛴️", lab:"10/4 船" },
     { f:"napoli", t:"athina",  c:[560,222], col:"#8e44ad", g:"✈️", lab:"10/5 飞" },
     { f:"athina", t:"zante",   c:[705,548], col:"#d4930b", g:"✈️", lab:"10/7 飞" },
     { f:"zante",  t:"athina",  c:[712,378], col:"#2e6fb0", g:"✈️", lab:"10/9 飞" },
@@ -668,11 +668,16 @@ function renderOverview(){
     </g>`;
   }).join("");
 
-  const nodes = Object.values(P).map(p=>`
+  const nodes = Object.values(P).map(p=>{
+    const lx = p.lp==="right" ? p.x+12 : p.x;
+    const ly = p.lp==="below" ? p.y+22 : p.lp==="right" ? p.y+5 : p.y-12;
+    const anchor = p.lp==="right" ? "start" : "middle";
+    return `
     <g>
       <circle cx="${p.x}" cy="${p.y}" r="6.5" fill="var(--accent)" stroke="var(--card)" stroke-width="2"/>
-      <text x="${p.x}" y="${p.y-12}" text-anchor="middle" font-size="14" font-weight="800" fill="var(--ink)" style="paint-order:stroke;stroke:var(--card);stroke-width:3.5px">${p.label}</text>
-    </g>`).join("");
+      <text x="${lx}" y="${ly}" text-anchor="${anchor}" font-size="14" font-weight="800" fill="var(--ink)" style="paint-order:stroke;stroke:var(--card);stroke-width:3.5px">${p.label}</text>
+    </g>`;
+  }).join("");
 
   // 陆地轮廓（手绘示意，非地理精确）
   const ITALY = "M 200 152 L 300 126 L 352 132 L 366 206 L 372 258 L 402 300 L 424 308 L 400 330 L 414 374 L 452 410 L 458 424 L 410 420 L 380 432 L 344 484 L 300 508 L 324 466 L 322 436 L 300 404 L 308 384 L 272 330 L 250 296 L 232 256 L 210 230 L 216 200 L 196 180 Z";
@@ -687,6 +692,7 @@ function renderOverview(){
     <path d="${GREECE}" fill="var(--land)" stroke="var(--coast)" stroke-width="2" filter="url(#rough)"/>
     <path d="${CRETE}"  fill="var(--land)" stroke="var(--coast)" stroke-width="2" filter="url(#rough)"/>
     <ellipse cx="610" cy="460" rx="16" ry="24" fill="var(--land)" stroke="var(--coast)" stroke-width="2" filter="url(#rough)"/>
+    <ellipse cx="258" cy="466" rx="10" ry="6" fill="var(--land)" stroke="var(--coast)" stroke-width="1.6" filter="url(#rough)"/>
     <circle cx="586" cy="432" r="5" fill="var(--land)" stroke="var(--coast)" stroke-width="1.5"/>
     <circle cx="600" cy="410" r="4" fill="var(--land)" stroke="var(--coast)" stroke-width="1.5"/>`;
 
@@ -698,8 +704,8 @@ function renderOverview(){
 
   // 进出港（上海往返）
   const inout = `
-    <path d="M 168 168 Q 230 215 279 283" fill="none" stroke="var(--ink-soft)" stroke-width="2" stroke-dasharray="3 5" filter="url(#rough)"/>
-    <text x="150" y="150" font-size="12.5" fill="var(--ink-soft)" style="paint-order:stroke;stroke:var(--sea);stroke-width:3px">✈️ 上海飞入 · 9/27</text>
+    <path d="M 10 238 Q 140 202 262 292" fill="none" stroke="var(--ink-soft)" stroke-width="2" stroke-dasharray="3 5" filter="url(#rough)"/>
+    <text x="12" y="228" font-size="12.5" fill="var(--ink-soft)" style="paint-order:stroke;stroke:var(--sea);stroke-width:3px">✈️ 上海飞入 · 9/27</text>
     <path d="M 812 344 Q 878 252 900 192" fill="none" stroke="var(--ink-soft)" stroke-width="2" stroke-dasharray="3 5" filter="url(#rough)"/>
     <text x="838" y="176" font-size="12.5" fill="var(--ink-soft)" style="paint-order:stroke;stroke:var(--sea);stroke-width:3px">✈️ 飞回上海 · 10/10</text>`;
 
