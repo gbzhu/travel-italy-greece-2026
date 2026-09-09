@@ -88,10 +88,10 @@ push 完 Cloudflare 自动重新发布，几十秒后新版上线。
    ```
 6. 拉取仓库并运行一键脚本（脚本会装好 Caddy、拉代码、配好自动更新）：
    ```bash
-   git clone https://github.com/gbzhu/travel-italy-greece-2026.git /var/travel/italy
+   git clone https://github.com/gbzhu/travel-italy-greece-2026.git ~/travel/italy
    # 编辑脚本顶部两行：REPO 填你的仓库地址；DOMAIN 有域名就填、没有留空
-   nano /var/travel/italy/deploy/server-setup.sh
-   bash /var/travel/italy/deploy/server-setup.sh
+   nano ~/travel/italy/deploy/server-setup.sh
+   bash ~/travel/italy/deploy/server-setup.sh
    ```
 7. 完成后访问 `http://你的服务器IP`（填了域名则是 `https://你的域名`）。
 
@@ -102,7 +102,7 @@ push 完 Cloudflare 自动重新发布，几十秒后新版上线。
 ### C. 以后更新
 和 Cloudflare 一样，你只需在电脑上 `git push`。
 - 境外入口（Cloudflare）：几十秒自动上线
-- 国内入口（香港服务器）：push 后 SSH 登录执行 `update-italy` 即可更新（也可手动 `cd /var/travel/italy && git pull`）
+- 国内入口（香港服务器）：push 后 SSH 登录执行 `update-italy` 即可更新（也可手动 `cd ~/travel/italy && git pull`）
 
 ---
 
