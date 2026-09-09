@@ -32,7 +32,7 @@ git commit -m "init travel handbook"
 
 ### 4. 关联远程并推送
 ```bash
-git remote add origin https://github.com/你的用户名/travel-italy-greece-2026.git
+git remote add origin https://github.com/gbzhu/travel-italy-greece-2026.git
 git branch -M main
 git push -u origin main
 ```
@@ -88,7 +88,7 @@ push 完 Cloudflare 自动重新发布，几十秒后新版上线。
    ```
 6. 拉取仓库并运行一键脚本（脚本会装好 Caddy、拉代码、配好自动更新）：
    ```bash
-   git clone https://github.com/你的用户名/travel-italy-greece-2026.git /tmp/italy
+   git clone https://github.com/gbzhu/travel-italy-greece-2026.git /tmp/italy
    # 编辑脚本顶部两行：REPO 填你的仓库地址；DOMAIN 有域名就填、没有留空
    nano /tmp/italy/deploy/server-setup.sh
    bash /tmp/italy/deploy/server-setup.sh
