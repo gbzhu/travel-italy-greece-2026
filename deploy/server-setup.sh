@@ -9,7 +9,7 @@ REPO="https://github.com/gbzhu/travel-italy-greece-2026.git"
 DOMAIN=""      # 有域名就填（如 trip.example.com，需先把域名解析到本机 IP）；留空则用 IP+HTTP
 # =====================================
 
-APP_DIR=/tmp/italy
+APP_DIR=/var/travel/italy
 
 echo ">> 1/4 安装 git 与 Caddy ..."
 sudo apt-get update -y
