@@ -5,7 +5,7 @@
 set -euo pipefail
 
 # ============ 只需改这两行 ============
-REPO="https://github.com/你的用户名/travel-italy-greece-2026.git"
+REPO="https://github.com/gbzhu/travel-italy-greece-2026.git"
 DOMAIN=""      # 有域名就填（如 trip.example.com，需先把域名解析到本机 IP）；留空则用 IP+HTTP
 # =====================================
 
