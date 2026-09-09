@@ -340,7 +340,7 @@ const FLIGHTS = [
 // col = 该天颜色；stops = 有序地点（用于当天多点导航 & 迷你地图）
 const DAYS = [
   { n:"DAY1", date:"09/27", dow:"周日", col:"#c9772e",
-    route:"上海 → 罗马", sleep:"罗马 · Cavour 地铁站附近", mode:"transit",
+    route:"上海 → 罗马", sleep:"罗马 · Via Cavour, 238", sleepQ:"Via Cavour, 238, Rome", mode:"transit",
     items:[
       { t:"08:55/09:20", name:"上海出发", desc:"两组分别从虹桥、浦东飞北京汇合" },
       { t:"13:10", name:"北京 → 罗马 CA939", desc:"18:30 落地罗马 FCO" },
@@ -349,14 +349,14 @@ const DAYS = [
     stops:[{name:"罗马 Cavour 区", q:"Via Cavour, Roma"}] },
 
   { n:"DAY2", date:"09/28", dow:"周一", col:"#b4472e",
-    route:"罗马 · 古城核心", sleep:"罗马", mode:"walking",
+    route:"罗马 · 古城核心", sleep:"罗马 · Via Cavour, 238", sleepQ:"Via Cavour, 238, Rome", mode:"walking",
     items:[
       { t:"全天", name:"斗兽场 + 古罗马广场 + 帕拉蒂尼山", q:"Colosseo, Roma", book:"联票·限时入场", desc:"斗兽场联票，务必按预约时段入场" },
     ],
     stops:[{name:"斗兽场", q:"Colosseo, Roma"},{name:"古罗马广场", q:"Foro Romano, Roma"},{name:"帕拉蒂尼山", q:"Palatino, Roma"}] },
 
   { n:"DAY3", date:"09/29", dow:"周二", col:"#b4472e",
-    route:"罗马 · 梵蒂冈", sleep:"罗马", mode:"walking",
+    route:"罗马 · 梵蒂冈", sleep:"罗马 · Via Cavour, 238", sleepQ:"Via Cavour, 238, Rome", mode:"walking",
     items:[
       { t:"上午", name:"梵蒂冈博物馆 + 西斯廷礼拜堂", q:"Musei Vaticani", book:"建议预约免排队", desc:"周日闭馆，周二正常开放 ✓ 着装需遮肩过膝" },
       { t:"中午", name:"圣彼得大教堂", q:"Basilica di San Pietro, Vaticano", desc:"可登顶穹顶俯瞰圣彼得广场" },
@@ -364,7 +364,7 @@ const DAYS = [
     stops:[{name:"梵蒂冈博物馆", q:"Musei Vaticani"},{name:"圣彼得大教堂", q:"Basilica di San Pietro"}] },
 
   { n:"DAY4", date:"09/30", dow:"周三", col:"#b4472e",
-    route:"罗马 · 喷泉与花园", sleep:"罗马", mode:"walking",
+    route:"罗马 · 喷泉与花园", sleep:"罗马 · Via Cavour, 238", sleepQ:"Via Cavour, 238, Rome", mode:"walking",
     items:[
       { t:"上午", name:"特雷维喷泉 + 万神殿 + 西班牙台阶", q:"Fontana di Trevi, Roma", desc:"经典喷泉一圈，投硬币许愿" },
       { t:"下午", name:"波尔盖塞美术馆", q:"Galleria Borghese, Roma", book:"必须提前预约·易售罄", desc:"⚠ 强制预约、固定时段、当天不卖票——最优先抢票" },
@@ -373,7 +373,7 @@ const DAYS = [
     stops:[{name:"特雷维喷泉", q:"Fontana di Trevi, Roma"},{name:"万神殿", q:"Pantheon, Roma"},{name:"波尔盖塞美术馆", q:"Galleria Borghese, Roma"}] },
 
   { n:"DAY5", date:"10/01", dow:"周四", col:"#2e7d5b",
-    route:"罗马 → 佛罗伦萨", sleep:"佛罗伦萨 · 圣母百花附近", mode:"transit",
+    route:"罗马 → 佛罗伦萨", sleep:"佛罗伦萨 · Borgo Pinti, 12", sleepQ:"Borgo Pinti, 12, Florence", mode:"transit",
     items:[
       { t:"一早", name:"高铁 罗马 → 佛罗伦萨", q:"Roma Termini", book:"建议提前购火车票", desc:"Italo/Trenitalia，约 1.5 小时，越早买越便宜" },
       { t:"下午", name:"乌菲兹美术馆", q:"Galleria degli Uffizi, Firenze", book:"建议预约", desc:"周一闭馆，周四正常 ✓ 优先安排（本日偏满，乌菲兹为主）" },
@@ -382,7 +382,7 @@ const DAYS = [
     stops:[{name:"佛罗伦萨 SMN 站", q:"Firenze Santa Maria Novella"},{name:"乌菲兹美术馆", q:"Galleria degli Uffizi, Firenze"},{name:"碧提宫", q:"Palazzo Pitti, Firenze"}] },
 
   { n:"DAY6", date:"10/02", dow:"周五", col:"#2e7d5b",
-    route:"佛罗伦萨 · 全天", sleep:"佛罗伦萨", mode:"walking",
+    route:"佛罗伦萨 · 全天", sleep:"佛罗伦萨 · Borgo Pinti, 12", sleepQ:"Borgo Pinti, 12, Florence", mode:"walking",
     items:[
       { t:"上午", name:"圣母百花大教堂 + 逛街", q:"Cattedrale di Santa Maria del Fiore, Firenze", book:"登顶穹顶需预约·常售罄", desc:"登顶(布鲁内莱斯基穹顶)限时预约，容易满" },
       { t:"下午", name:"领主广场 · 旧宫 · 老桥", q:"Piazza della Signoria, Firenze", desc:"露天雕塑博物馆，散步老桥" },
@@ -391,7 +391,7 @@ const DAYS = [
     stops:[{name:"圣母百花大教堂", q:"Cattedrale di Santa Maria del Fiore, Firenze"},{name:"领主广场", q:"Piazza della Signoria, Firenze"},{name:"老桥", q:"Ponte Vecchio, Firenze"},{name:"米开朗基罗广场", q:"Piazzale Michelangelo, Firenze"}] },
 
   { n:"DAY7", date:"10/03", dow:"周六", col:"#1f6f6b",
-    route:"佛罗伦萨 → 那不勒斯", sleep:"那不勒斯", mode:"transit",
+    route:"佛罗伦萨 → 那不勒斯", sleep:"那不勒斯 · Vico San Geronimo dei Ciechi, 11", sleepQ:"Vico San Geronimo dei Ciechi, 11, Naples", mode:"transit",
     items:[
       { t:"一早", name:"高铁 佛罗伦萨 → 那不勒斯", q:"Firenze Santa Maria Novella", book:"建议提前购火车票", desc:"约 3 小时，直达" },
       { t:"下午", name:"国立考古博物馆", q:"Museo Archeologico Nazionale di Napoli", desc:"周二闭馆，周六正常 ✓ 庞贝出土文物精华" },
@@ -401,7 +401,7 @@ const DAYS = [
     stops:[{name:"那不勒斯中央站", q:"Napoli Centrale"},{name:"国立考古博物馆", q:"Museo Archeologico Nazionale di Napoli"},{name:"主教座堂", q:"Duomo di Napoli"},{name:"圣埃莫堡", q:"Castel Sant'Elmo, Napoli"}] },
 
   { n:"DAY8", date:"10/04", dow:"周日", col:"#1f6f6b",
-    route:"那不勒斯 ↔ 卡布里岛", sleep:"那不勒斯", mode:"transit",
+    route:"那不勒斯 ↔ 卡布里岛", sleep:"那不勒斯 · Vico San Geronimo dei Ciechi, 11", sleepQ:"Vico San Geronimo dei Ciechi, 11, Naples", mode:"transit",
     items:[
       { t:"一早", name:"坐船去卡布里岛", q:"Molo Beverello, Napoli", book:"建议早班船", desc:"从 Beverello 码头坐快船往返" },
       { t:"上午", name:"蓝洞（看天气/海况）", q:"Grotta Azzurra, Capri", warn:"浪大可能关闭", desc:"⚠ 受海况影响，进不去就直接玩镇子" },
@@ -410,7 +410,7 @@ const DAYS = [
     stops:[{name:"Beverello 码头", q:"Molo Beverello, Napoli"},{name:"卡布里蓝洞", q:"Grotta Azzurra, Capri"},{name:"奥古斯都花园", q:"Giardini di Augusto, Capri"}] },
 
   { n:"DAY9", date:"10/05", dow:"周一", col:"#8e44ad",
-    route:"那不勒斯 → 雅典", sleep:"雅典", mode:"transit",
+    route:"那不勒斯 → 雅典", sleep:"雅典 · Porinou 8", sleepQ:"Porinou 8, Athina", mode:"transit",
     items:[
       { t:"上午", name:"百年咖啡 Gambrinus + 逛街", q:"Gran Caffè Gambrinus, Napoli", desc:"那不勒斯老牌咖啡馆" },
       { t:"15:50前", name:"抵达那不勒斯机场", q:"Aeroporto di Napoli-Capodichino", book:"国际段提前2h值机", desc:"easyJet 需提前网上值机" },
@@ -420,7 +420,7 @@ const DAYS = [
     stops:[{name:"Gambrinus 咖啡", q:"Gran Caffè Gambrinus, Napoli"},{name:"那不勒斯机场", q:"Aeroporto di Napoli-Capodichino"}] },
 
   { n:"DAY10", date:"10/06", dow:"周二", col:"#2e6fb0",
-    route:"雅典 · 全天", sleep:"雅典", mode:"walking",
+    route:"雅典 · 全天", sleep:"雅典 · Porinou 8", sleepQ:"Porinou 8, Athina", mode:"walking",
     items:[
       { t:"上午", name:"卫城（帕特农·伊瑞克提翁·胜利女神庙）", q:"Acropolis of Athens", book:"建议买限时票免排队", desc:"早去避开人潮与高温" },
       { t:"中午", name:"卫城博物馆 + 普拉卡老城午餐", q:"Acropolis Museum, Athens", desc:"Plaka 老城区吃饭逛街" },
@@ -447,7 +447,7 @@ const DAYS = [
     stops:[{name:"沉船湾", q:"Navagio Beach, Zakynthos"},{name:"蓝洞", q:"Blue Caves, Zakynthos"}] },
 
   { n:"DAY13", date:"10/09", dow:"周五", col:"#2e6fb0",
-    route:"扎金索斯 → 雅典", sleep:"雅典", mode:"transit",
+    route:"扎金索斯 → 雅典", sleep:"雅典 · Porinou 8", sleepQ:"Porinou 8, Athina", mode:"transit",
     items:[
       { t:"白天", name:"扎金索斯半天 + 逛街", q:"Zakynthos Town", desc:"上午自由，逛镇子买手信" },
       { t:"晚餐", name:"Symposio Restaurant", q:"Symposio Restaurant Zakynthos", desc:"" },
@@ -483,12 +483,12 @@ const TODOS = [
     { t:"雅典卫城限时票（DAY10）", done:false },
     { t:"扎金索斯出海确认船班（DAY12，季末）", done:false },
   ]},
-  { g:"🏨 住宿（订好发我截图，我补进页面）", items:[
-    { t:"罗马 4 晚（Cavour 地铁站附近）", done:false },
-    { t:"佛罗伦萨 2 晚（圣母百花附近）", done:false },
-    { t:"那不勒斯 2 晚", done:false },
-    { t:"雅典 2 晚 + 回程 1 晚", done:false },
-    { t:"扎金索斯 2 晚", done:false },
+  { g:"🏨 住宿", items:[
+    { t:"罗马 4 晚 · Via Cavour, 238 ✓", done:true },
+    { t:"佛罗伦萨 2 晚 · Borgo Pinti, 12 ✓", done:true },
+    { t:"那不勒斯 2 晚 · Vico San Geronimo dei Ciechi, 11 ✓", done:true },
+    { t:"雅典 2 晚 + 回程 1 晚 · Porinou 8 ✓", done:true },
+    { t:"扎金索斯 2 晚（待确认）", done:false },
   ]},
   { g:"🚄 交通", items:[
     { t:"罗马→佛罗伦萨 高铁票（DAY5）", done:false },
@@ -614,10 +614,31 @@ function renderBookings(){
   });
   html += `</div>`;
 
-  // 酒店（待定）
-  html += `<div class="booking"><div class="b-head"><span class="ico">🏨</span>酒店</div>
-    <div class="pending">住宿订好后，把订单截图发我，我补上<b>地址 / 电话 / 入住退房时间</b>。<br>
-    计划：罗马 4 晚 · 佛罗伦萨 2 晚 · 那不勒斯 2 晚 · 雅典 2 晚 · 扎金索斯 2 晚 · 雅典 1 晚（回程）</div></div>`;
+  // 酒店
+  const HOTELS = [
+    { city:"罗马", nights:"4 晚", dates:"09/27–10/01", addr:"Via Cavour, 238, Rome, Lazio 00184", q:"Via Cavour, 238, Rome" },
+    { city:"佛罗伦萨", nights:"2 晚", dates:"10/01–10/03", addr:"Borgo Pinti, 12, Florence, Tuscany 50121", q:"Borgo Pinti, 12, Florence" },
+    { city:"那不勒斯", nights:"2 晚", dates:"10/03–10/05", addr:"Vico San Geronimo dei Ciechi, 11, Naples, Campania 80134", q:"Vico San Geronimo dei Ciechi, 11, Naples" },
+    { city:"雅典", nights:"2+1 晚", dates:"10/05–10/07 & 10/09–10/10", addr:"Porinou 8, Athina, 117 42", q:"Porinou 8, Athina" },
+    { city:"扎金索斯", nights:"2 晚", dates:"10/07–10/09", addr:null, q:null },
+  ];
+  html += `<div class="booking"><div class="b-head"><span class="ico">🏨</span>酒店</div>`;
+  HOTELS.forEach(h => {
+    if (h.addr) {
+      html += `<div class="flight-leg">
+        <div><div class="fl-city">${h.city}</div><div class="fl-time">${h.dates} · ${h.nights}</div></div>
+        <div class="fl-mid"><div class="plane">📍</div></div>
+        <div style="text-align:right"><div class="fl-city" style="font-size:12px;font-weight:500"><a href="https://www.google.com/maps/search/?api=1&query=${Q(h.q)}" target="_blank" rel="noopener" style="color:var(--accent2);text-decoration:none;border-bottom:1px dotted var(--accent2)">${h.addr} ↗</a></div></div>
+      </div>`;
+    } else {
+      html += `<div class="flight-leg">
+        <div><div class="fl-city">${h.city}</div><div class="fl-time">${h.dates} · ${h.nights}</div></div>
+        <div class="fl-mid"><div class="plane">⏳</div></div>
+        <div style="text-align:right"><div class="fl-no" style="color:var(--gold);font-weight:700">待确认</div></div>
+      </div>`;
+    }
+  });
+  html += `</div>`;
 
   // 门票（待定）
   html += `<div class="booking"><div class="b-head"><span class="ico">🎫</span>门票</div>
@@ -658,7 +679,7 @@ function renderDays(){
     return `<div class="day" data-i="${i}" style="--daycol:${d.col}">
       <div class="day-head" onclick="toggleDay(${i})">
         <div class="day-badge"><div class="d">${d.n}</div><div class="date">${d.date}</div></div>
-        <div class="day-title"><div class="rt">${d.route}</div><div class="sleep"><span class="bed">🛏</span> 住：${d.sleep} · ${d.dow}</div></div>
+        <div class="day-title"><div class="rt">${d.route}</div><div class="sleep"><span class="bed">🛏</span> 住：${d.sleepQ?`<a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=${Q(d.sleepQ)}" target="_blank" rel="noopener">${d.sleep} ↗</a>`:d.sleep} · ${d.dow}</div></div>
         <div class="chev">▾</div>
       </div>
       <div class="day-body">
