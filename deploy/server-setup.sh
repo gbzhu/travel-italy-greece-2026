@@ -31,7 +31,7 @@ else
 fi
 
 echo ">> 3/4 写入 Caddy 配置 ..."
-SITE="${DOMAIN:-:80}"
+SITE="${DOMAIN:-:8081}"
 sudo tee /etc/caddy/Caddyfile >/dev/null <<EOF
 $SITE {
     root * $APP_DIR/public
