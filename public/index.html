@@ -84,10 +84,10 @@
   }
 
   /* ============ 此刻关注 / 倒计时 ============ */
-  .focus-wrap { position: relative; margin-top: 18px; }
-  .focus-track { display: flex; transition: transform .35s cubic-bezier(.4,0,.2,1); will-change: transform; }
+  .focus-wrap { position: relative; margin-top: 18px; overflow: hidden; }
+  .focus-track { display: flex; gap: 12px; transition: transform .35s cubic-bezier(.4,0,.2,1); will-change: transform; }
   .focus {
-    flex: 0 0 100%; min-width: 0;
+    flex: 0 0 calc(100% - 32px); min-width: 0;
     position: relative;
     background: linear-gradient(160deg, var(--card), color-mix(in srgb, var(--card) 80%, var(--accent2) 8%));
     border: 1.5px solid var(--line); border-radius: 20px; box-shadow: var(--shadow);
@@ -580,7 +580,8 @@ function tick(){
 let focusIdx = 0;
 function focusGo(i){
   focusIdx = i;
-  $("focusTrack").style.transform = `translateX(-${i*100}%)`;
+  const cardW = $("focusTrack").firstElementChild.offsetWidth + 12;
+  $("focusTrack").style.transform = `translateX(-${i * cardW}px)`;
   ["fd0","fd1"].forEach((id,k)=>$(id).classList.toggle("active", k===i));
 }
 (function(){
