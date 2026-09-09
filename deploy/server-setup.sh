@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # 香港轻量服务器一键部署（Ubuntu）。首次在服务器上运行一次即可。
 # 用 Caddy 托管静态页：有域名自动 HTTPS；没域名就走 IP + HTTP。
-# 之后每 2 分钟自动 git pull，你 push 到 GitHub 后自动上线。
+# 部署后用 update-italy 命令手动拉取最新代码。
 set -euo pipefail
 
 # ============ 只需改这两行 ============
@@ -41,10 +41,16 @@ $SITE {
 EOF
 sudo systemctl restart caddy
 
-echo ">> 4/4 设置每 2 分钟自动更新 ..."
-( crontab -l 2>/dev/null | grep -v '# travel-auto-pull' ; \
-  echo "*/2 * * * * cd $APP_DIR && git pull -q --ff-only origin main # travel-auto-pull" ) | crontab -
+echo ">> 4/4 安装 update-italy 命令 ..."
+sudo tee /usr/local/bin/update-italy >/dev/null <<SCRIPT
+#!/usr/bin/env bash
+set -euo pipefail
+cd $APP_DIR
+git pull --ff-only origin main
+echo "✅ 已更新到最新版本"
+SCRIPT
+sudo chmod +x /usr/local/bin/update-italy
 
 echo ""
 echo "✅ 完成！访问：${DOMAIN:+https://$DOMAIN}${DOMAIN:-http://<你的服务器公网IP>}"
-echo "   以后在电脑上 git push，服务器 2 分钟内自动更新。"
+echo "   以后在电脑上 git push 后，SSH 登录服务器执行 update-italy 即可更新。"
