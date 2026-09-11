@@ -358,7 +358,7 @@ const DAYS = [
   { n:"DAY3", date:"09/29", dow:"周二", col:"#b4472e",
     route:"罗马 · 梵蒂冈", sleep:"罗马 · Via Cavour, 238", sleepQ:"Via Cavour, 238, Rome", mode:"walking",
     items:[
-      { t:"上午", name:"梵蒂冈博物馆 + 西斯廷礼拜堂", q:"Musei Vaticani", book:"建议预约免排队", desc:"周日闭馆，周二正常开放 ✓ 着装需遮肩过膝" },
+      { t:"上午", name:"梵蒂冈博物馆 + 西斯廷礼拜堂 + 圣彼得大教堂中文讲解", q:"Musei Vaticani", book:"✅ 已预约 09:00·中文拼团·4人", desc:"周日闭馆，周二正常开放 ✓ 着装需遮肩过膝" },
       { t:"中午", name:"圣彼得大教堂", q:"Basilica di San Pietro, Vaticano", desc:"可登顶穹顶俯瞰圣彼得广场" },
     ],
     stops:[{name:"梵蒂冈博物馆", q:"Musei Vaticani"},{name:"圣彼得大教堂", q:"Basilica di San Pietro"}] },
@@ -376,8 +376,8 @@ const DAYS = [
     route:"罗马 → 佛罗伦萨", sleep:"佛罗伦萨 · Borgo Pinti, 12", sleepQ:"Borgo Pinti, 12, Florence", mode:"transit",
     items:[
       { t:"一早", name:"高铁 罗马 → 佛罗伦萨", q:"Roma Termini", book:"建议提前购火车票", desc:"Italo/Trenitalia，约 1.5 小时，越早买越便宜" },
-      { t:"下午", name:"乌菲兹美术馆", q:"Galleria degli Uffizi, Firenze", book:"建议预约", desc:"周一闭馆，周四正常 ✓ 优先安排（本日偏满，乌菲兹为主）" },
-      { t:"傍晚", name:"碧提宫 + 波波里花园（如时间够）", q:"Palazzo Pitti, Firenze", desc:"提示：只有半天，碧提宫/波波里可能来不及，酌情挪到 DAY6" },
+      { t:"13:30", name:"乌菲兹美术馆", q:"Galleria degli Uffizi, Firenze", book:"✅ 已预约 13:30·4人", desc:"周一闭馆，周四正常 ✓ 含皮蒂宫 + 波波里花园联票" },
+      { t:"傍晚", name:"碧提宫 + 波波里花园", q:"Palazzo Pitti, Firenze", desc:"联票已含，乌菲兹后可直接前往" },
     ],
     stops:[{name:"佛罗伦萨 SMN 站", q:"Firenze Santa Maria Novella"},{name:"乌菲兹美术馆", q:"Galleria degli Uffizi, Firenze"},{name:"碧提宫", q:"Palazzo Pitti, Firenze"}] },
 
@@ -477,9 +477,9 @@ const TODOS = [
   { g:"🎫 抢票（有售罄风险，越早越好）", items:[
     { t:"波尔盖塞美术馆预约（DAY4，强制预约、易售罄）", done:false },
     { t:"圣母百花登顶穹顶预约（DAY6，常提前满）", done:false },
-    { t:"乌菲兹美术馆门票（DAY5）", done:false },
+    { t:"乌菲兹美术馆门票（DAY5）", done:true },
     { t:"斗兽场联票限时入场（DAY2）", done:false },
-    { t:"梵蒂冈博物馆免排队预约（DAY3）", done:false },
+    { t:"梵蒂冈博物馆免排队预约（DAY3）", done:true },
     { t:"雅典卫城限时票（DAY10）", done:false },
     { t:"扎金索斯出海确认船班（DAY12，季末）", done:false },
   ]},
@@ -640,10 +640,14 @@ function renderBookings(){
   });
   html += `</div>`;
 
-  // 门票（待定）
+  // 门票
   html += `<div class="booking"><div class="b-head"><span class="ico">🎫</span>门票</div>
-    <div class="pending">门票预约后发我截图即可补入。<br>
-    <b>需提前预约：</b>波尔盖塞美术馆 · 圣母百花登顶 · 乌菲兹 · 斗兽场联票 · 梵蒂冈博物馆 · 雅典卫城</div></div>`;
+    <div class="fl-no" style="margin:8px 0 2px;color:var(--accent2);font-weight:700">DAY3 · 09/29 梵蒂冈</div>
+    <div style="font-size:14px;padding:4px 0">梵蒂冈博物馆 + 圣彼得大教堂拼团中文讲解<br><span style="color:var(--ink-soft)">09:00 场 · 成人票 × 4 · ✅ 已出票</span></div>
+    <div class="fl-no" style="margin:8px 0 2px;color:var(--accent2);font-weight:700">DAY5 · 10/01 佛罗伦萨</div>
+    <div style="font-size:14px;padding:4px 0">乌菲兹（指定场次）+ 皮蒂宫 + 波波里花园联票<br><span style="color:var(--ink-soft)">乌菲兹 13:30 · 成人票 × 4 · ✅ 已出票</span></div>
+    <div class="pending" style="margin-top:10px"><b>待预约：</b>波尔盖塞美术馆 · 圣母百花登顶 · 斗兽场联票 · 雅典卫城</div>
+  </div>`;
 
   // 租车
   html += `<div class="booking"><div class="b-head"><span class="ico">🚗</span>租车</div>
