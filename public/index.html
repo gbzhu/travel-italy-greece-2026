@@ -171,7 +171,8 @@
   .tl-body .loc-link { color: var(--accent2); text-decoration: none; border-bottom: 1px dotted var(--accent2); }
   .tl-body .desc { font-size: 13px; color: var(--ink-soft); }
   .tag { display: inline-block; font-size: 10.5px; padding: 1px 7px; border-radius: 999px; margin-left: 6px; vertical-align: middle; font-weight: 700; }
-  .tag.book { background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--accent); border: 1px solid color-mix(in srgb,var(--accent) 40%, transparent); }
+  .tag.book   { background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--accent); border: 1px solid color-mix(in srgb,var(--accent) 40%, transparent); }
+  .tag.booked { background: color-mix(in srgb, var(--accent2) 16%, transparent); color: var(--accent2); border: 1px solid color-mix(in srgb,var(--accent2) 40%, transparent); }
   .tag.warn { background: color-mix(in srgb, var(--gold) 18%, transparent); color: var(--gold); border: 1px solid color-mix(in srgb,var(--gold) 45%, transparent); }
 
   .mini-map-box { display: none; margin: 4px 0 12px; border: 1px dashed var(--line); border-radius: 12px; overflow: hidden; }
@@ -664,7 +665,8 @@ function renderDays(){
       const nameHtml = it.q
         ? `<a class="loc-link" href="${mapsNav(it.q)}" target="_blank" rel="noopener">${it.name} ↗</a>`
         : `<span>${it.name}</span>`;
-      const tags = (it.book ? `<span class="tag book">需订 ${it.book}</span>` : "")
+      const isBooked = it.book && it.book.startsWith("✅");
+      const tags = (it.book ? `<span class="tag ${isBooked ? 'booked' : 'book'}">${isBooked ? it.book : '需订 ' + it.book}</span>` : "")
                  + (it.warn ? `<span class="tag warn">${it.warn}</span>` : "");
       return `<div class="tl-item">
         <div class="tl-time">${it.t}</div>
